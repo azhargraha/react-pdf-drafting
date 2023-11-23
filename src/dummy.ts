@@ -40,6 +40,34 @@ export const personOptions: Option[] = [
     value: 'Person 3',
     label: 'Person 3',
   },
+  {
+    value: 'Person 4',
+    label: 'Person 4',
+  },
+  {
+    value: 'Person 5',
+    label: 'Person 5',
+  },
+  {
+    value: 'Person 6',
+    label: 'Person 6',
+  },
+  {
+    value: 'Person 7',
+    label: 'Person 7',
+  },
+  {
+    value: 'Person 8',
+    label: 'Person 8',
+  },
+  {
+    value: 'Person 9',
+    label: 'Person 9',
+  },
+  {
+    value: 'Person 10',
+    label: 'Person 10',
+  },
 ];
 
 export const penandatanganOptions: Option[] = [

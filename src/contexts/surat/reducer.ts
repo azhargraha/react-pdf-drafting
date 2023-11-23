@@ -109,9 +109,11 @@ export const suratBiasaReducer = (
       } as SuratBiasa;
     }
     case SuratBiasaSetAction.Tembusan: {
+      if (!action?.payload?.tembusan) return;
+
       return {
         ...state,
-        tembusan: [...state.tembusan, action?.payload?.tembusan],
+        tembusan: action.payload.tembusan,
       } as SuratBiasa;
     }
     default: {

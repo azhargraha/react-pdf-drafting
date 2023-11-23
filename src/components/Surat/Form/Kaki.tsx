@@ -30,10 +30,13 @@ const KakiForm = () => {
         subLabel="Tujuan tembusan maksimal 10 orang"
         placeholder="Pilih/ketik tembusan naskah"
         name="tembusan"
-        onChange={(selected) =>
-          dispatch.setTembusan((selected as Option).value || '')
-        }
+        onChange={(selected) => {
+          const newTembusan = (selected as Option[]).map(({ value }) => value);
+
+          dispatch.setTembusan(newTembusan);
+        }}
         options={personOptions}
+        isMulti
       />
     </>
   );
