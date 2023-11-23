@@ -20,10 +20,13 @@ const KakiForm = () => {
         label="Pemeriksa"
         placeholder="Pilih/ketik nama pemeriksa naskah"
         name="pemeriksa"
-        onChange={(selected) =>
-          dispatch.setPemeriksa((selected as Option).value || '')
-        }
+        onChange={(selected) => {
+          const newPemeriksa = (selected as Option[]).map(({ value }) => value);
+
+          dispatch.setPemeriksa(newPemeriksa);
+        }}
         options={personOptions}
+        isMulti
       />
       <Select
         label="Tembusan"

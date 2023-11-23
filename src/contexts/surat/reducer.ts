@@ -103,13 +103,15 @@ export const suratBiasaReducer = (
       } as SuratBiasa;
     }
     case SuratBiasaSetAction.Pemeriksa: {
+      if (!action?.payload?.pemeriksa) return state;
+
       return {
         ...state,
-        pemeriksa: action?.payload?.pemeriksa,
+        pemeriksa: action.payload.pemeriksa,
       } as SuratBiasa;
     }
     case SuratBiasaSetAction.Tembusan: {
-      if (!action?.payload?.tembusan) return;
+      if (!action?.payload?.tembusan) return state;
 
       return {
         ...state,

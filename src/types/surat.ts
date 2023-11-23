@@ -13,7 +13,7 @@ export type SuratBiasa = {
   perihal: string;
   body: string;
   penandatangan: Penandatangan | null;
-  pemeriksa: string;
+  pemeriksa: string[];
   tembusan: string[];
 };
 
