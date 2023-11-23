@@ -3,6 +3,7 @@ import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import cl from 'classnames';
 import { useRef, useState } from 'react';
 import { Editor as TinyMCEEditor } from 'tinymce';
+import Image from 'next/image';
 
 import Button from '@/components/Button';
 import NoSSR from '@/components/NoSSR';
@@ -13,6 +14,7 @@ import KepalaForm from '@/components/Surat/Form/Kepala';
 import KopForm from '@/components/Surat/Form/Kop';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
 import { ContentSectionForm } from '@/types/surat';
+import FileIcon from '@/../public/images/file-icon.svg';
 
 const Home = () => {
   const { state } = useSuratBiasaContext();
@@ -108,7 +110,16 @@ const Home = () => {
             />
           </header>
         )}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 h-full">
+          {!activeForm && (
+            <div className="flex flex-col justify-center items-center gap-6 h-full">
+              <Image src={FileIcon} alt="file description" />
+              <p className="text-center text-[#9E9E9E]">
+                Klik bagian surat di samping untuk mengisi dan mengubah isi
+                naskah
+              </p>
+            </div>
+          )}
           {activeForm === ContentSectionForm.Kop && <KopForm />}
           {activeForm === ContentSectionForm.Kepala && <KepalaForm />}
           {activeForm === ContentSectionForm.Badan && (
