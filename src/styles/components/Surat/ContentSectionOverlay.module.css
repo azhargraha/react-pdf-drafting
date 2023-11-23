@@ -1,0 +1,11 @@
+.container {
+    @apply absolute w-full h-full bg-[#90CAF9]/50 rounded-[4px] border border-dashed border-blue-500 flex items-center justify-center cursor-pointer opacity-0 hover:opacity-100;
+}
+
+.container > .button {
+    @apply hidden;
+}
+
+.container:hover > .button {
+    @apply flex;
+}
