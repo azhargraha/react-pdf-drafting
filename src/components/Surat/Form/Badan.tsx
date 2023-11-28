@@ -1,20 +1,26 @@
-import { Editor } from '@tinymce/tinymce-react';
-import { Editor as TinyMCEEditor } from 'tinymce';
-import React, { MutableRefObject } from 'react';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useDebouncedCallback } from '@/hooks/useDebounce';
+import { Editor } from '@tinymce/tinymce-react';
+import React, { useRef, useState } from 'react';
+import { Editor as TinyMCEEditor } from 'tinymce';
 
-interface BadanFormProps {
-  editorRef: MutableRefObject<TinyMCEEditor | null>;
-}
+interface BadanFormProps {}
 
-const BadanForm: React.FC<BadanFormProps> = ({ editorRef }) => {
-  const { dispatch } = useSuratBiasaContext();
+const BadanForm: React.FC<BadanFormProps> = () => {
+  const editorRef = useRef<TinyMCEEditor | null>(null);
+  const { dispatch, state } = useSuratBiasaContext();
+  const [initialValue] = useState(state.body); // avoid Editor rerender on state change
 
   const handleEditorChange = () => {
     if (editorRef.current) {
       dispatch.setBody(editorRef.current.getContent());
     }
   };
+
+  const debounceHandleEditorChange = useDebouncedCallback(
+    handleEditorChange,
+    500
+  );
 
   return (
     <Editor
@@ -33,6 +39,9 @@ const BadanForm: React.FC<BadanFormProps> = ({ editorRef }) => {
           'print preview paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen  template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount  textpattern noneditable help charmap quickbars emoticons nonbreaking',
         branding: false,
         table_default_styles: { width: '100%' },
+        table_default_attributes: {
+          border: '1px',
+        },
         table_style_by_css: true,
         nonbreaking_wrap: false,
         table_border_styles: [{ title: 'Solid', value: 'solid' }],
@@ -43,7 +52,8 @@ const BadanForm: React.FC<BadanFormProps> = ({ editorRef }) => {
         fontsize_formats:
           '8pt 9pt 10pt 11pt 11.5pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
       }}
-      onEditorChange={handleEditorChange}
+      initialValue={initialValue}
+      onEditorChange={debounceHandleEditorChange}
     />
   );
 };

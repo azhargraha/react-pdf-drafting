@@ -1,4 +1,5 @@
 import { Font, StyleSheet } from '@react-pdf/renderer';
+import { CSSProperties } from 'react';
 
 Font.registerHyphenationCallback((word) => [word]);
 
@@ -92,4 +93,60 @@ export const styles = StyleSheet.create({
   empty: {
     color: 'red',
   },
+  table: {
+    // @ts-ignore
+    display: 'table',
+    width: '100%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRightWidth: 0,
+    borderBottomWidth: 0,
+  },
+  tableRow: {
+    width: '100%',
+    margin: 'auto',
+    flexDirection: 'row',
+  },
+  tableCol: {
+    width: '100%',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderLeftWidth: 0,
+    borderTopWidth: 0,
+    padding: 8,
+  },
 });
+
+export const CSSStyles: { [key: string]: CSSProperties } = {
+  h1: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    fontFamily: 'Arial',
+  },
+  h2: {
+    fontSize: 40,
+    fontWeight: 'bold',
+  },
+  h3: {
+    fontSize: 34,
+    fontWeight: 'bold',
+  },
+  h4: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  h5: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  h6: {
+    fontSize: 19,
+    fontWeight: 'bold',
+  },
+  strong: {
+    fontWeight: 700,
+  },
+  em: {
+    fontStyle: 'italic',
+  },
+};

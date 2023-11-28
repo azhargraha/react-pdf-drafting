@@ -1,29 +1,19 @@
 'use client';
 
 /* eslint-disable jsx-a11y/alt-text */
-import {
-  Document,
-  Font,
-  Image as PDFImage,
-  Page,
-  Text,
-  View,
-} from '@react-pdf/renderer';
+import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
 import format from 'date-fns/format';
 import { id } from 'date-fns/locale';
-import { DomElement } from 'domhandler';
 import NextImage from 'next/image';
 import React, { Dispatch, SetStateAction } from 'react';
-import ReactHtmlParser from 'react-html-parser';
 
 import KopDinas from '@/../public/images/kop-surat/kop-dinas.png';
 import KopSekda from '@/../public/images/kop-surat/kop-sekda.png';
 import KopUptd from '@/../public/images/kop-surat/kop-uptd.png';
 import { ContentSectionForm, LevelKop, SuratBiasa } from '@/types/surat';
-import NoSSR from '../NoSSR';
+import { Html } from 'react-pdf-html';
 import ContentSectionOverlay from './ContentSectionOverlay';
-import { styles } from './config';
-import transformToPdfComponent from './transformToPdfComponent';
+import { CSSStyles, styles } from './config';
 
 interface SuratBiasaProps {
   isPreview?: boolean;
@@ -59,21 +49,16 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
       >
         <View style={{ position: 'relative' }}>
           {renderContentSectionOverlay(ContentSectionForm.Kop)}
-          <NoSSR>
-            {isPreview ? (
-              <PDFImage
-                src={kopImage().src}
-                style={{ flexGrow: 1, width: '100%' }}
-              />
-            ) : (
-              <NextImage
-                src={kopImage()}
-                width={kopImage().width}
-                height={kopImage().height}
-                alt="Kop Surat Biasa"
-              />
-            )}
-          </NoSSR>
+          {isPreview ? (
+            <Image src={kopImage().src} source={kopImage().src} />
+          ) : (
+            <NextImage
+              src={kopImage()}
+              width={kopImage().width}
+              height={kopImage().height}
+              alt="Kop Surat Biasa"
+            />
+          )}
         </View>
         <View style={{ ...styles.row, justifyContent: 'flex-end' }}>
           <Text style={{ ...styles.text, width: 234 }}>
@@ -181,9 +166,35 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
         >
           {renderContentSectionOverlay(ContentSectionForm.Badan)}
           {data.body ? (
-            ReactHtmlParser(data.body, {
-              transform: transformToPdfComponent,
-            }) // table can't be rendered to pdf
+            isPreview ? (
+              <Html
+                renderers={{
+                  table: (node, index) => (
+                    <View
+                      key={index}
+                      style={{ ...styles.table, ...node.style[0] }}
+                    >
+                      {node.children}
+                    </View>
+                  ),
+                  tr: (node, index) => (
+                    <View key={index} style={styles.tableRow}>
+                      {node.children}
+                    </View>
+                  ),
+                  td: (node, index) => (
+                    <View key={index} style={styles.tableCol}>
+                      {node.children}
+                    </View>
+                  ),
+                }}
+                stylesheet={CSSStyles}
+              >
+                {data.body}
+              </Html>
+            ) : (
+              <div>{data.body}</div>
+            )
           ) : (
             <Text style={{ ...styles.text, ...styles.empty }}>
               Sorot dan klik pada bagian ini untuk menampilkan teks editor isian
@@ -206,6 +217,8 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
               marginLeft: 'auto',
               width: 302,
             }}
+            wrap
+            break
           >
             <Text style={{ marginBottom: 8 }}>JABATAN PENANDATANGAN</Text>
             <View style={{ ...styles.row, ...styles.signatureBox }}>
