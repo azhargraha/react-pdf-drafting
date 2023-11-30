@@ -183,7 +183,10 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
                     </View>
                   ),
                   td: (node, index) => (
-                    <View key={index} style={styles.tableCol}>
+                    <View
+                      key={index}
+                      style={{ ...styles.tableCol, ...node.style[0] }}
+                    >
                       {node.children}
                     </View>
                   ),
