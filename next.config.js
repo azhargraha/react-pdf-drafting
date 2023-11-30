@@ -8,6 +8,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/canvas-based',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig

@@ -32,16 +32,16 @@ interface MainLayoutProps {
 
 const links = [
   {
-    name: 'iFrame based',
+    name: 'iFrame',
     href: '/iframe-based',
   },
   {
-    name: 'Component based',
+    name: 'Component',
     href: '/component-based',
   },
   {
-    name: 'Canvas based',
-    href: '/',
+    name: 'Canvas',
+    href: '/canvas-based',
   },
 ];
 
@@ -56,10 +56,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
         <Image src={SidebarLogo} className="h-8 w-auto" alt="Sidebar Logo" />
         <nav className="flex items-center gap-6">
           {links.map((link) => {
-            const isActive =
-              link.href === '/'
-                ? pathname === link.href
-                : pathname.startsWith(link.href);
+            const isActive = pathname.startsWith(link.href);
 
             return (
               <Link
@@ -80,7 +77,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
         <div className="flex-0 w-[72%] bg-gray-100 h-full flex flex-col">
           <nav className="bg-white/50 px-6 py-3 border-b border-solid border-gray-200 flex justify-between items-center">
             <header>
-              <h1 className="font-medium text-xl">{title}</h1>
+              <h1 className="font-semibold text-xl">{title}</h1>
             </header>
             <div className="flex gap-2">
               <NoSSR>
