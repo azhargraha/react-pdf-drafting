@@ -12,7 +12,7 @@ const nextConfig = {
     return [
       {
         source: '/',
-        destination: '/canvas-based',
+        destination: '/canvas-based/surat-biasa',
         permanent: true,
       },
     ];

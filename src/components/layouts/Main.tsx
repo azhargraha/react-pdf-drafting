@@ -100,7 +100,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   'text-blue-600': isActive,
                   'text-gray-500 hover:text-blue-500': !isActive,
                 })}
-                href={link.href}
+                href={link.href + `/${documentType}`}
               >
                 {link.name}
               </Link>
