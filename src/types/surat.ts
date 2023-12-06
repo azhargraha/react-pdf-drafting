@@ -38,6 +38,8 @@ export interface LampiranSurat {
   files: LampiranFile[];
 }
 
+export type SuratReducerState = Surat & LampiranSurat & { dasar: string };
+
 export interface SuratBiasa extends Surat, LampiranSurat {}
 
 export interface SuratPerintah extends Omit<Surat, 'tembusan'> {

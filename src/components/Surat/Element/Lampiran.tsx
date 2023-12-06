@@ -13,7 +13,7 @@ import SuratBiasa from '../Biasa';
 import Kaki from './Kaki';
 import ContentSectionOverlay from '../ContentSectionOverlay';
 import Html from 'react-pdf-html';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 
 interface LampiranProps {
   isPreview?: boolean;
@@ -32,7 +32,7 @@ const Lampiran: React.FC<LampiranProps> = ({
   isPreview,
   setContentForm,
 }) => {
-  const { dispatch } = useSuratBiasaContext();
+  const { dispatch } = useSuratContext();
   const renderContentSectionOverlay = () =>
     !isPreview && (
       <ContentSectionOverlay

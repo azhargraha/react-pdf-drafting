@@ -1,4 +1,4 @@
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 import { useDebouncedCallback } from '@/hooks/useDebounce';
 import { LampiranCustom } from '@/types/surat';
 import { Editor } from '@tinymce/tinymce-react';
@@ -11,7 +11,7 @@ interface LampiranFormProps {
 
 const LampiranForm: React.FC<LampiranFormProps> = ({ id }) => {
   const editorRef = useRef<TinyMCEEditor | null>(null);
-  const { dispatch, state } = useSuratBiasaContext();
+  const { dispatch, state } = useSuratContext();
   const [initialValue] = useState(
     state.lampiran?.filter((lampiran) => lampiran.id === id)[0].body
   ); // avoid Editor rerender on state change

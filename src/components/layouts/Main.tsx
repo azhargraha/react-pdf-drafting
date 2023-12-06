@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { ChangeEvent, ReactElement, ReactNode, useState } from 'react';
 
 import SidebarLogo from '@/../public/sidebar-logo.png';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 import {
   ContentSectionForm,
   LampiranCustom,
@@ -54,7 +54,7 @@ const links = [
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { state, dispatch } = useSuratBiasaContext();
+  const { state, dispatch } = useSuratContext();
   const [activeForm, setActiveForm] = useState<
     ContentSectionForm | LampiranSectionForm | null
   >(null);
@@ -93,6 +93,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   };
 
   const changeSurat = (href: string) => {
+    setActiveForm(null);
+    dispatch.resetSurat();
     router.push(`/${pathname.split('/')[1]}/${href}`);
   };
 

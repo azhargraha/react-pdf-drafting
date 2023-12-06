@@ -1,5 +1,10 @@
 import { Option } from './types/input';
-import { LevelKop, Employee, SuratBiasa } from './types/surat';
+import {
+  LevelKop,
+  Employee,
+  SuratBiasa,
+  SuratReducerState,
+} from './types/surat';
 
 export const levelKopOptions: Option<LevelKop>[] = [
   {
@@ -267,7 +272,7 @@ export const urgensiOptions: Option[] = [
   },
 ];
 
-export const initialSuratBiasa: SuratBiasa = {
+export const initialSurat: SuratReducerState = {
   levelSurat: LevelKop.Dinas,
   uptd: '',
   tanggalPenulisan: new Date(),
@@ -286,4 +291,5 @@ export const initialSuratBiasa: SuratBiasa = {
   tembusan: [],
   lampiran: [],
   files: [],
+  dasar: '',
 };

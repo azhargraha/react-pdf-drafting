@@ -8,11 +8,11 @@ import {
 import RadioGroup from '@/components/Radio/Group';
 import Select from '@/components/Select';
 import { Option } from '@/types/input';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 import { Employee } from '@/types/surat';
 
 const KepalaForm = () => {
-  const { state, dispatch } = useSuratBiasaContext();
+  const { state, dispatch } = useSuratContext();
 
   return (
     <>

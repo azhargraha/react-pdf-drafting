@@ -1,7 +1,14 @@
+import { initialSurat } from '@/dummy';
 import { Action } from '@/types/reducer';
-import { LampiranCustom, SuratBiasa } from '@/types/surat';
+import {
+  LampiranCustom,
+  SuratReducerState,
+  SuratBiasa,
+  Surat,
+  LampiranSurat,
+} from '@/types/surat';
 
-export enum SuratBiasaSetAction {
+export enum SuratAction {
   LevelSurat = 'SET_LEVEL_SURAT',
   Uptd = 'SET_UPTD',
   TempatPenulisan = 'SET_TEMPAT_PENULISAN',
@@ -17,6 +24,9 @@ export enum SuratBiasaSetAction {
   Penandatangan = 'SET_PENANDATANGAN',
   Pemeriksa = 'SET_PEMERIKSA',
   Tembusan = 'SET_TEMBUSAN',
+  Dasar = 'SET_DASAR',
+
+  Reset = 'RESET_SURAT',
 }
 
 export enum LampiranAction {
@@ -30,107 +40,141 @@ export enum FileAction {
   Delete = 'DELETE_FILE',
 }
 
-export const suratBiasaReducer = (
-  state: SuratBiasa,
+export const suratReducer = (
+  state: SuratReducerState,
   action: Action<
-    SuratBiasaSetAction | LampiranAction,
-    Partial<SuratBiasa & LampiranCustom & { idx: number }>
+    SuratAction | LampiranAction,
+    Partial<SuratReducerState & LampiranCustom & { idx: number }>
   >
 ) => {
   switch (action.type) {
-    case SuratBiasaSetAction.LevelSurat: {
+    case SuratAction.LevelSurat: {
+      if (!action?.payload?.levelSurat) return state;
+
       return {
         ...state,
         levelSurat: action?.payload?.levelSurat,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Uptd: {
+    case SuratAction.Uptd: {
+      if (!action?.payload?.uptd) return state;
+
       return {
         ...state,
         uptd: action?.payload?.uptd,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.TempatPenulisan: {
+    case SuratAction.TempatPenulisan: {
+      if (!action?.payload?.tempatPenulisan) return state;
+
       return {
         ...state,
         tempatPenulisan: action?.payload?.tempatPenulisan,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.TipeTujuan: {
+    case SuratAction.TipeTujuan: {
+      if (!action?.payload?.tipeTujuan) return state;
+
       return {
         ...state,
         tipeTujuan: action?.payload?.tipeTujuan,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Penerima: {
+    case SuratAction.Penerima: {
+      if (!action?.payload?.penerima) return state;
+
       return {
         ...state,
         penerima: action?.payload?.penerima,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.LokasiTujuan: {
+    case SuratAction.LokasiTujuan: {
+      if (!action?.payload?.lokasiTujuan) return state;
+
       return {
         ...state,
         lokasiTujuan: action?.payload?.lokasiTujuan,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.KodeKlasifikasi: {
+    case SuratAction.KodeKlasifikasi: {
+      if (!action?.payload?.kodeKlasifikasi) return state;
+
       return {
         ...state,
         kodeKlasifikasi: action?.payload?.kodeKlasifikasi,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.UnitPengolah: {
+    case SuratAction.UnitPengolah: {
+      if (!action?.payload?.unitPengolah) return state;
+
       return {
         ...state,
         unitPengolah: action?.payload?.unitPengolah,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.SifatSurat: {
+    case SuratAction.SifatSurat: {
+      if (!action?.payload?.sifatSurat) return state;
+
       return {
         ...state,
         sifatSurat: action?.payload?.sifatSurat,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Urgensi: {
+    case SuratAction.Urgensi: {
+      if (!action?.payload?.urgensi) return state;
+
       return {
         ...state,
         urgensi: action?.payload?.urgensi,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Perihal: {
+    case SuratAction.Perihal: {
+      if (!action?.payload?.perihal) return state;
+
       return {
         ...state,
-        perihal: action?.payload?.perihal,
-      } as SuratBiasa;
+        perihal: action.payload.perihal,
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Body: {
+    case SuratAction.Body: {
+      if (!action?.payload?.body) return state;
+
       return {
         ...state,
-        body: action?.payload?.body,
-      } as SuratBiasa;
+        body: action.payload.body,
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Penandatangan: {
+    case SuratAction.Penandatangan: {
+      if (!action?.payload?.penandatangan) return state;
+
       return {
         ...state,
-        penandatangan: action?.payload?.penandatangan,
-      } as SuratBiasa;
+        penandatangan: action.payload.penandatangan,
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Pemeriksa: {
+    case SuratAction.Pemeriksa: {
       if (!action?.payload?.pemeriksa) return state;
 
       return {
         ...state,
         pemeriksa: action.payload.pemeriksa,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
-    case SuratBiasaSetAction.Tembusan: {
+    case SuratAction.Tembusan: {
       if (!action?.payload?.tembusan) return state;
 
       return {
         ...state,
         tembusan: action.payload.tembusan,
-      } as SuratBiasa;
+      } as SuratReducerState;
+    }
+    case SuratAction.Dasar: {
+      if (!action?.payload?.dasar) return state;
+
+      return {
+        ...state,
+        dasar: action.payload.dasar,
+      } as SuratReducerState;
     }
 
     case LampiranAction.Add: {
@@ -145,7 +189,7 @@ export const suratBiasaReducer = (
       return {
         ...state,
         lampiran: newLampiran,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
     case LampiranAction.Set: {
       if (!action?.payload?.id) return state;
@@ -162,7 +206,7 @@ export const suratBiasaReducer = (
       return {
         ...state,
         lampiran: newLampiran,
-      } as SuratBiasa;
+      } as SuratReducerState;
     }
     case LampiranAction.Delete: {
       if (!action?.payload?.id) return state;
@@ -174,7 +218,11 @@ export const suratBiasaReducer = (
       return {
         ...state,
         lampiran: newLampiran,
-      } as SuratBiasa;
+      } as SuratReducerState;
+    }
+
+    case SuratAction.Reset: {
+      return initialSurat;
     }
 
     default: {

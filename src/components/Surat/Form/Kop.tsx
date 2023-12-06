@@ -4,10 +4,10 @@ import { LevelKop } from '@/types/surat';
 import { Option } from '@/types/input';
 import Select from '@/components/Select';
 import React from 'react';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 
 const KopForm = () => {
-  const { state, dispatch } = useSuratBiasaContext();
+  const { state, dispatch } = useSuratContext();
 
   return (
     <>

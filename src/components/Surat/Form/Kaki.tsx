@@ -1,11 +1,11 @@
 import Select from '@/components/Select';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 import { employeeOptions } from '@/dummy';
 import { Option } from '@/types/input';
 import { Employee } from '@/types/surat';
 
 const KakiForm = () => {
-  const { dispatch } = useSuratBiasaContext();
+  const { dispatch } = useSuratContext();
   return (
     <>
       <Select

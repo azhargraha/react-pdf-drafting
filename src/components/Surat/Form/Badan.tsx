@@ -1,4 +1,4 @@
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 import { useDebouncedCallback } from '@/hooks/useDebounce';
 import Editor from '@/components/Editor';
 import React, { useRef, useState } from 'react';
@@ -11,7 +11,7 @@ import { Employee } from '@/types/surat';
 interface BadanFormProps {}
 
 const BadanForm: React.FC<BadanFormProps> = () => {
-  const { dispatch, state } = useSuratBiasaContext();
+  const { dispatch, state } = useSuratContext();
   const editorRef = useRef<TinyMCEEditorProps | null>(null);
   const [initialValue] = useState(state.body); // avoid Editor rerender on state change
 

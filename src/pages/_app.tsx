@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
 import MainLayout from '@/components/layouts/Main';
-import SuratBiasaProvider from '@/contexts/surat/Provider';
+import SuratProvider from '@/contexts/surat/Provider';
 import '@/styles/globals.css';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -12,11 +12,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>React PDF Exploration - SIDEBAR</title>
         <link rel="icon" type="image/png" href="/logo-jds.png" />
       </Head>
-      <SuratBiasaProvider>
+      <SuratProvider>
         <MainLayout>
           <Component {...pageProps} />
         </MainLayout>
-      </SuratBiasaProvider>
+      </SuratProvider>
     </>
   );
 }

@@ -4,10 +4,10 @@ import { BlobProvider } from '@react-pdf/renderer';
 
 import NoSSR from '@/components/NoSSR';
 import SuratBiasa from '@/components/Surat/Biasa';
-import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { useSuratContext } from '@/contexts/surat/Provider';
 
 const Home = () => {
-  const { state } = useSuratBiasaContext();
+  const { state } = useSuratContext();
 
   return (
     <NoSSR>

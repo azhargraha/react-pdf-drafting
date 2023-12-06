@@ -6,41 +6,43 @@ import React, {
   useReducer,
 } from 'react';
 
-import { initialSuratBiasa } from '@/dummy';
-import { LampiranCustom, SuratBiasa } from '@/types/surat';
+import { initialSurat } from '@/dummy';
 import {
-  LampiranAction,
-  SuratBiasaSetAction,
-  suratBiasaReducer,
-} from './reducer';
+  LampiranCustom,
+  LampiranSurat,
+  SuratReducerState,
+} from '@/types/surat';
+import { LampiranAction, SuratAction, suratReducer } from './reducer';
 
 export type SuratContextType = {
-  state: Partial<SuratBiasa>;
+  state: Partial<SuratReducerState>;
   dispatch: {
-    setLevelSurat: (payload: SuratBiasa['levelSurat']) => void;
-    setUptd: (payload: SuratBiasa['uptd']) => void;
-    setTempatPenulisan: (payload: SuratBiasa['tempatPenulisan']) => void;
-    setTipeTujuan: (payload: SuratBiasa['tipeTujuan']) => void;
-    setPenerima: (payload: SuratBiasa['penerima']) => void;
-    setLokasiTujuan: (payload: SuratBiasa['lokasiTujuan']) => void;
-    setKodeKlasifikasi: (payload: SuratBiasa['kodeKlasifikasi']) => void;
-    setUnitPengolah: (payload: SuratBiasa['unitPengolah']) => void;
-    setSifatSurat: (payload: SuratBiasa['sifatSurat']) => void;
-    setUrgensi: (payload: SuratBiasa['urgensi']) => void;
-    setPerihal: (payload: SuratBiasa['perihal']) => void;
-    setBody: (payload: SuratBiasa['body']) => void;
-    setPenandatangan: (payload: SuratBiasa['penandatangan']) => void;
-    setPemeriksa: (payload: SuratBiasa['pemeriksa']) => void;
-    setTembusan: (payload: SuratBiasa['tembusan']) => void;
+    setLevelSurat: (payload: SuratReducerState['levelSurat']) => void;
+    setUptd: (payload: SuratReducerState['uptd']) => void;
+    setTempatPenulisan: (payload: SuratReducerState['tempatPenulisan']) => void;
+    setTipeTujuan: (payload: SuratReducerState['tipeTujuan']) => void;
+    setPenerima: (payload: SuratReducerState['penerima']) => void;
+    setLokasiTujuan: (payload: SuratReducerState['lokasiTujuan']) => void;
+    setKodeKlasifikasi: (payload: SuratReducerState['kodeKlasifikasi']) => void;
+    setUnitPengolah: (payload: SuratReducerState['unitPengolah']) => void;
+    setSifatSurat: (payload: SuratReducerState['sifatSurat']) => void;
+    setUrgensi: (payload: SuratReducerState['urgensi']) => void;
+    setPerihal: (payload: SuratReducerState['perihal']) => void;
+    setBody: (payload: SuratReducerState['body']) => void;
+    setPenandatangan: (payload: SuratReducerState['penandatangan']) => void;
+    setPemeriksa: (payload: SuratReducerState['pemeriksa']) => void;
+    setTembusan: (payload: SuratReducerState['tembusan']) => void;
     addLampiran: () => void;
     setLampiran: (payload: LampiranCustom) => void;
     deleteLampiran: (id: LampiranCustom['id']) => void;
-    setFile: (payload: SuratBiasa['files']) => void;
+    setFile: (payload: LampiranSurat['files']) => void;
     deleteFile: (idx: number) => void;
+    setDasar: (payload: SuratReducerState['dasar']) => void;
+    resetSurat: () => void;
   };
 };
 
-export const SuratBiasaContext: React.Context<SuratContextType> = createContext(
+export const SuratContext: React.Context<SuratContextType> = createContext(
   {} as SuratContextType
 );
 
@@ -48,141 +50,142 @@ interface SuratProviderProps {
   children: ReactNode | ReactElement;
 }
 
-const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
-  const [suratBiasa, dispatch] = useReducer(
-    suratBiasaReducer,
-    initialSuratBiasa
-  );
+const SuratProvider: React.FC<SuratProviderProps> = ({ children }) => {
+  const [surat, dispatch] = useReducer(suratReducer, initialSurat);
 
-  const setLevelSurat = (payload: SuratBiasa['levelSurat']) => {
+  const setLevelSurat = (payload: SuratReducerState['levelSurat']) => {
     dispatch({
-      type: SuratBiasaSetAction.LevelSurat,
+      type: SuratAction.LevelSurat,
       payload: {
         levelSurat: payload,
       },
     });
   };
 
-  const setUptd = (payload: SuratBiasa['uptd']) => {
+  const setUptd = (payload: SuratReducerState['uptd']) => {
     dispatch({
-      type: SuratBiasaSetAction.Uptd,
+      type: SuratAction.Uptd,
       payload: {
         uptd: payload,
       },
     });
   };
 
-  const setTempatPenulisan = (payload: SuratBiasa['tempatPenulisan']) => {
+  const setTempatPenulisan = (
+    payload: SuratReducerState['tempatPenulisan']
+  ) => {
     dispatch({
-      type: SuratBiasaSetAction.TempatPenulisan,
+      type: SuratAction.TempatPenulisan,
       payload: {
         tempatPenulisan: payload,
       },
     });
   };
 
-  const setTipeTujuan = (payload: SuratBiasa['tipeTujuan']) => {
+  const setTipeTujuan = (payload: SuratReducerState['tipeTujuan']) => {
     dispatch({
-      type: SuratBiasaSetAction.TipeTujuan,
+      type: SuratAction.TipeTujuan,
       payload: {
         tipeTujuan: payload,
       },
     });
   };
 
-  const setPenerima = (payload: SuratBiasa['penerima']) => {
+  const setPenerima = (payload: SuratReducerState['penerima']) => {
     dispatch({
-      type: SuratBiasaSetAction.Penerima,
+      type: SuratAction.Penerima,
       payload: {
         penerima: payload,
       },
     });
   };
 
-  const setLokasiTujuan = (payload: SuratBiasa['lokasiTujuan']) => {
+  const setLokasiTujuan = (payload: SuratReducerState['lokasiTujuan']) => {
     dispatch({
-      type: SuratBiasaSetAction.LokasiTujuan,
+      type: SuratAction.LokasiTujuan,
       payload: {
         lokasiTujuan: payload,
       },
     });
   };
 
-  const setKodeKlasifikasi = (payload: SuratBiasa['kodeKlasifikasi']) => {
+  const setKodeKlasifikasi = (
+    payload: SuratReducerState['kodeKlasifikasi']
+  ) => {
     dispatch({
-      type: SuratBiasaSetAction.KodeKlasifikasi,
+      type: SuratAction.KodeKlasifikasi,
       payload: {
         kodeKlasifikasi: payload,
       },
     });
   };
 
-  const setUnitPengolah = (payload: SuratBiasa['unitPengolah']) => {
+  const setUnitPengolah = (payload: SuratReducerState['unitPengolah']) => {
     dispatch({
-      type: SuratBiasaSetAction.UnitPengolah,
+      type: SuratAction.UnitPengolah,
       payload: {
         unitPengolah: payload,
       },
     });
   };
 
-  const setSifatSurat = (payload: SuratBiasa['sifatSurat']) => {
+  const setSifatSurat = (payload: SuratReducerState['sifatSurat']) => {
     dispatch({
-      type: SuratBiasaSetAction.SifatSurat,
+      type: SuratAction.SifatSurat,
       payload: {
         sifatSurat: payload,
       },
     });
   };
 
-  const setUrgensi = (payload: SuratBiasa['urgensi']) => {
+  const setUrgensi = (payload: SuratReducerState['urgensi']) => {
     dispatch({
-      type: SuratBiasaSetAction.Urgensi,
+      type: SuratAction.Urgensi,
       payload: {
         urgensi: payload,
       },
     });
   };
 
-  const setPerihal = (payload: SuratBiasa['perihal']) => {
+  const setPerihal = (payload: SuratReducerState['perihal']) => {
     dispatch({
-      type: SuratBiasaSetAction.Perihal,
+      type: SuratAction.Perihal,
       payload: {
         perihal: payload,
       },
     });
   };
 
-  const setBody = (payload: SuratBiasa['body']) => {
+  const setBody = (payload: SuratReducerState['body']) => {
     dispatch({
-      type: SuratBiasaSetAction.Body,
+      type: SuratAction.Body,
       payload: {
         body: payload,
       },
     });
   };
 
-  const setPenandatangan = (payload: SuratBiasa['penandatangan']) => {
+  const setPenandatangan = (payload: SuratReducerState['penandatangan']) => {
     dispatch({
-      type: SuratBiasaSetAction.Penandatangan,
+      type: SuratAction.Penandatangan,
       payload: {
         penandatangan: payload,
       },
     });
   };
 
-  const setPemeriksa = (payload: SuratBiasa['pemeriksa']) => {
+  const setPemeriksa = (payload: SuratReducerState['pemeriksa']) => {
     dispatch({
-      type: SuratBiasaSetAction.Pemeriksa,
+      type: SuratAction.Pemeriksa,
       payload: {
         pemeriksa: payload,
       },
     });
   };
 
-  const setTembusan = (payload: SuratBiasa['tembusan']) => {
+  const setTembusan = (payload: SuratReducerState['tembusan']) => {
     dispatch({
-      type: SuratBiasaSetAction.Tembusan,
+      type: SuratAction.Tembusan,
       payload: {
         tembusan: payload,
       },
@@ -211,7 +214,7 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
-  const setFile = (payload: SuratBiasa['files']) => {
+  const setFile = (payload: LampiranSurat['files']) => {
     dispatch({
       type: LampiranAction.Set,
       payload: {
@@ -229,10 +232,25 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
+  const setDasar = (payload: SuratReducerState['dasar']) => {
+    dispatch({
+      type: SuratAction.Dasar,
+      payload: {
+        dasar: payload,
+      },
+    });
+  };
+
+  const resetSurat = () => {
+    dispatch({
+      type: SuratAction.Reset,
+    });
+  };
+
   return (
-    <SuratBiasaContext.Provider
+    <SuratContext.Provider
       value={{
-        state: suratBiasa,
+        state: surat,
         dispatch: {
           setLevelSurat,
           setUptd,
@@ -254,14 +272,16 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
           deleteLampiran,
           setFile,
           deleteFile,
+          setDasar,
+          resetSurat,
         },
       }}
     >
       {children}
-    </SuratBiasaContext.Provider>
+    </SuratContext.Provider>
   );
 };
 
-export default SuratBiasaProvider;
+export default SuratProvider;
 
-export const useSuratBiasaContext = () => useContext(SuratBiasaContext);
+export const useSuratContext = () => useContext(SuratContext);
