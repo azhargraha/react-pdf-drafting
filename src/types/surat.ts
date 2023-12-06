@@ -1,10 +1,20 @@
-export type SuratBiasa = {
+import { Dispatch, SetStateAction } from 'react';
+
+// component
+export interface SuratProps<TData> {
+  isPreview?: boolean;
+  data: Partial<TData>;
+  setContentForm?: Dispatch<SetStateAction<ContentSectionForm | null>>;
+}
+
+// data
+export interface Surat {
   levelSurat: LevelKop;
   uptd: string;
   tanggalPenulisan: Date;
   tempatPenulisan: string;
   tipeTujuan: string;
-  tujuan: string;
+  penerima: Employee[];
   lokasiTujuan: string;
   kodeKlasifikasi: string;
   unitPengolah: string;
@@ -12,14 +22,32 @@ export type SuratBiasa = {
   urgensi: string;
   perihal: string;
   body: string;
-  penandatangan: Penandatangan | null;
-  pemeriksa: string[];
-  tembusan: string[];
-};
+  penandatangan: Employee | null;
+  pemeriksa: Employee[];
+  tembusan: Employee[];
+}
 
-export type Penandatangan = {
+export type LampiranFile = File;
+
+export type LampiranCustom = {
+  id: string;
+  body: string;
+};
+export interface LampiranSurat {
+  lampiran: LampiranCustom[];
+  files: LampiranFile[];
+}
+
+export interface SuratBiasa extends Surat, LampiranSurat {}
+
+export interface SuratPerintah extends Omit<Surat, 'tembusan'> {
+  dasar: string;
+}
+
+export type Employee = {
   nama: string;
   jabatan: string;
+  NIP: string;
   pangkat: string;
 };
 
@@ -36,3 +64,8 @@ export enum ContentSectionForm {
   Kaki = 'Kaki Surat',
   Lampiran = 'Lampiran',
 }
+
+export type LampiranSectionForm = {
+  section: ContentSectionForm.Lampiran;
+  id: LampiranCustom['id'];
+};

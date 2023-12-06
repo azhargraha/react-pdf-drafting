@@ -1,37 +1,21 @@
-'use client';
-
-/* eslint-disable jsx-a11y/alt-text */
-import { Document, Image, Page, Text, View } from '@react-pdf/renderer';
+import { Document, Page, Text, View } from '@react-pdf/renderer';
 import format from 'date-fns/format';
 import { id } from 'date-fns/locale';
-import NextImage from 'next/image';
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 
-import KopDinas from '@/../public/images/kop-surat/kop-dinas.png';
-import KopSekda from '@/../public/images/kop-surat/kop-sekda.png';
-import KopUptd from '@/../public/images/kop-surat/kop-uptd.png';
-import { ContentSectionForm, LevelKop, SuratBiasa } from '@/types/surat';
+import { ContentSectionForm, SuratBiasa, SuratProps } from '@/types/surat';
 import { Html } from 'react-pdf-html';
 import ContentSectionOverlay from './ContentSectionOverlay';
-import { CSSStyles, styles } from './config';
+import Kaki from './Element/Kaki';
+import Kop from './Element/Kop';
+import Lampiran from './Element/Lampiran';
+import { CSSStyles, renderers, styles } from './config';
 
-interface SuratBiasaProps {
-  isPreview?: boolean;
-  data: Partial<SuratBiasa>;
-  setContentForm?: Dispatch<SetStateAction<ContentSectionForm | null>>;
-}
-
-const SuratBiasa: React.FC<SuratBiasaProps> = ({
+const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
   isPreview = false,
   data,
   setContentForm,
 }) => {
-  const kopImage = () => {
-    if (data.levelSurat === LevelKop.Dinas) return KopDinas;
-    if (data.levelSurat === LevelKop.Sekda) return KopSekda;
-    return KopUptd;
-  };
-
   const renderContentSectionOverlay = (form: ContentSectionForm) =>
     !isPreview && (
       <ContentSectionOverlay
@@ -47,19 +31,11 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
         dpi={96}
         wrap
       >
-        <View style={{ position: 'relative' }}>
-          {renderContentSectionOverlay(ContentSectionForm.Kop)}
-          {isPreview ? (
-            <Image src={kopImage().src} source={kopImage().src} />
-          ) : (
-            <NextImage
-              src={kopImage()}
-              width={kopImage().width}
-              height={kopImage().height}
-              alt="Kop Surat Biasa"
-            />
-          )}
-        </View>
+        <Kop
+          isPreview={isPreview}
+          data={data}
+          setContentForm={setContentForm}
+        />
         <View style={{ ...styles.row, justifyContent: 'flex-end' }}>
           <Text style={{ ...styles.text, width: 234 }}>
             {data.tempatPenulisan},{' '}
@@ -129,15 +105,26 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
             <View style={{ ...styles.row, gap: 6 }}>
               <Text style={styles.text}>Yth.</Text>
               <View style={styles.column}>
-                <Text
-                  style={{
-                    ...styles.text,
-                    width: 199,
-                    ...(!data.tujuan ? styles.empty : {}),
-                  }}
-                >
-                  {data.tujuan || 'Tujuan belum diisi'}
-                </Text>
+                <View style={styles.column}>
+                  {data.penerima && data.penerima.length > 0 ? (
+                    data.penerima.map((penerima, i) => (
+                      <Text
+                        key={penerima.NIP}
+                        style={{ ...styles.text, width: 199 }}
+                      >
+                        {data.penerima?.length === 1
+                          ? penerima.nama
+                          : `${i + 1}. ${penerima.nama}`}
+                      </Text>
+                    ))
+                  ) : (
+                    <Text
+                      style={{ ...styles.text, width: 199, ...styles.empty }}
+                    >
+                      Tujuan belum diisi
+                    </Text>
+                  )}
+                </View>
                 <Text style={{ ...styles.text, width: 199 }}>di</Text>
                 <View style={styles.column}>
                   <Text
@@ -167,32 +154,7 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
           {renderContentSectionOverlay(ContentSectionForm.Badan)}
           {data.body ? (
             isPreview ? (
-              <Html
-                renderers={{
-                  table: (node, index) => (
-                    <View
-                      key={index}
-                      style={{ ...styles.table, ...node.style[0] }}
-                    >
-                      {node.children}
-                    </View>
-                  ),
-                  tr: (node, index) => (
-                    <View key={index} style={styles.tableRow}>
-                      {node.children}
-                    </View>
-                  ),
-                  td: (node, index) => (
-                    <View
-                      key={index}
-                      style={{ ...styles.tableCol, ...node.style[0] }}
-                    >
-                      {node.children}
-                    </View>
-                  ),
-                }}
-                stylesheet={CSSStyles}
-              >
+              <Html renderers={renderers} stylesheet={CSSStyles}>
                 {data.body}
               </Html>
             ) : (
@@ -205,82 +167,25 @@ const SuratBiasa: React.FC<SuratBiasaProps> = ({
             </Text>
           )}
         </View>
-        <View
-          style={{
-            ...styles.column,
-            position: 'relative',
-            marginTop: 54,
-          }}
-        >
-          {renderContentSectionOverlay(ContentSectionForm.Kaki)}
-          <View
-            style={{
-              ...styles.column,
-              alignItems: 'center',
-              marginLeft: 'auto',
-              width: 302,
-            }}
-            wrap
-            break
-          >
-            <Text style={{ marginBottom: 8 }}>JABATAN PENANDATANGAN</Text>
-            <View style={{ ...styles.row, ...styles.signatureBox }}>
-              <View
-                style={{
-                  ...styles.column,
-                  justifyContent: 'space-between',
-                  height: '100%',
-                }}
-              >
-                <View style={styles.column}>
-                  <Text style={{ ...styles.text, ...styles.textSmall }}>
-                    Ditandatangani secara elektronik oleh:
-                  </Text>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      ...styles.textSmall,
-                      ...(!data.penandatangan ? styles.empty : {}),
-                    }}
-                  >
-                    {data.penandatangan?.jabatan || 'JABATAN PENANDATANGAN'}
-                  </Text>
-                </View>
-                <View style={styles.column}>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      ...styles.textSmall,
-                      ...(!data.penandatangan ? styles.empty : {}),
-                    }}
-                  >
-                    {data.penandatangan?.nama || 'NAMA PENANDATANGAN'}
-                  </Text>
-                  <Text
-                    style={{
-                      ...styles.text,
-                      ...styles.textSmall,
-                      ...(!data.penandatangan ? styles.empty : {}),
-                    }}
-                  >
-                    {data.penandatangan?.pangkat || 'Pangkat Penandatangan'}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          {data.tembusan && data.tembusan.length > 0 && (
-            <View style={styles.column}>
-              <Text style={styles.text}>Tembusan:</Text>
-              {data.tembusan.map((tembusan, i) => (
-                <Text key={tembusan} style={styles.text}>
-                  {i + 1}. Yth. {tembusan}
-                </Text>
-              ))}
-            </View>
-          )}
-        </View>
+        <Kaki
+          data={data}
+          isPreview={isPreview}
+          setContentForm={setContentForm}
+          withTembusan
+        />
       </Page>
+      {data.lampiran &&
+        data.lampiran.length > 0 &&
+        data.lampiran.map((lampiran) => (
+          <Lampiran
+            key={lampiran.id}
+            data={data}
+            body={lampiran.body}
+            id={lampiran.id}
+            isPreview={isPreview}
+            setContentForm={setContentForm}
+          />
+        ))}
     </Document>
   );
 };

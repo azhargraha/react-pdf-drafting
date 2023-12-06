@@ -1,5 +1,15 @@
-import { Font, StyleSheet } from '@react-pdf/renderer';
+import { Font, StyleSheet, View } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 import { CSSProperties } from 'react';
+import { HtmlStyles } from 'react-pdf-html';
+import { HtmlElement } from 'react-pdf-html/dist/parse';
+import { HtmlRenderers } from 'react-pdf-html/dist/render';
+
+type Node = React.PropsWithChildren<{
+  element: HtmlElement;
+  style: Style[];
+  stylesheets: HtmlStyles[];
+}>;
 
 Font.registerHyphenationCallback((word) => [word]);
 
@@ -78,6 +88,9 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: '1em',
   },
+  textUppercase: {
+    textTransform: 'uppercase',
+  },
   textCenter: {
     textAlign: 'center',
   },
@@ -118,6 +131,20 @@ export const styles = StyleSheet.create({
 });
 
 export const CSSStyles: { [key: string]: CSSProperties } = {
+  p: {
+    fontSize: 16,
+    margin: 0,
+    lineHeight: 1.5,
+    fontFamily: 'Arial',
+    fontWeight: 400,
+  },
+  span: {
+    margin: 0,
+    lineHeight: 1.5,
+    fontFamily: 'Arial',
+    fontWeight: 400,
+    fontSize: 16,
+  },
   h1: {
     fontSize: 48,
     fontWeight: 'bold',
@@ -149,4 +176,22 @@ export const CSSStyles: { [key: string]: CSSProperties } = {
   em: {
     fontStyle: 'italic',
   },
+};
+
+export const renderers: HtmlRenderers = {
+  table: (node: Node, index: number) => (
+    <View key={index} style={{ ...styles.table, ...node.style[0] }}>
+      {node.children}
+    </View>
+  ),
+  tr: (node: Node, index: number) => (
+    <View key={index} style={styles.tableRow}>
+      {node.children}
+    </View>
+  ),
+  td: (node: Node, index: number) => (
+    <View key={index} style={{ ...styles.tableCol, ...node.style[0] }}>
+      {node.children}
+    </View>
+  ),
 };

@@ -1,12 +1,12 @@
 import { Action } from '@/types/reducer';
-import { SuratBiasa } from '@/types/surat';
+import { LampiranCustom, SuratBiasa } from '@/types/surat';
 
 export enum SuratBiasaSetAction {
   LevelSurat = 'SET_LEVEL_SURAT',
   Uptd = 'SET_UPTD',
   TempatPenulisan = 'SET_TEMPAT_PENULISAN',
   TipeTujuan = 'SET_TIPE_TUJUAN',
-  Tujuan = 'SET_TUJUAN',
+  Penerima = 'SET_PENERIMA',
   LokasiTujuan = 'SET_LOKASI_TUJUAN',
   KodeKlasifikasi = 'SET_KODE_KLASIFIKASI',
   UnitPengolah = 'SET_UNIT_PENGOLAH',
@@ -19,9 +19,23 @@ export enum SuratBiasaSetAction {
   Tembusan = 'SET_TEMBUSAN',
 }
 
+export enum LampiranAction {
+  Add = 'ADD_LAMPIRAN',
+  Set = 'SET_LAMPIRAN',
+  Delete = 'DELETE_LAMPIRAN',
+}
+
+export enum FileAction {
+  Set = 'SET_FILE',
+  Delete = 'DELETE_FILE',
+}
+
 export const suratBiasaReducer = (
   state: SuratBiasa,
-  action: Action<SuratBiasaSetAction, Partial<SuratBiasa>>
+  action: Action<
+    SuratBiasaSetAction | LampiranAction,
+    Partial<SuratBiasa & LampiranCustom & { idx: number }>
+  >
 ) => {
   switch (action.type) {
     case SuratBiasaSetAction.LevelSurat: {
@@ -48,10 +62,10 @@ export const suratBiasaReducer = (
         tipeTujuan: action?.payload?.tipeTujuan,
       } as SuratBiasa;
     }
-    case SuratBiasaSetAction.Tujuan: {
+    case SuratBiasaSetAction.Penerima: {
       return {
         ...state,
-        tujuan: action?.payload?.tujuan,
+        penerima: action?.payload?.penerima,
       } as SuratBiasa;
     }
     case SuratBiasaSetAction.LokasiTujuan: {
@@ -118,6 +132,51 @@ export const suratBiasaReducer = (
         tembusan: action.payload.tembusan,
       } as SuratBiasa;
     }
+
+    case LampiranAction.Add: {
+      const newLampiran = [
+        ...state.lampiran,
+        {
+          id: `lampiran-${Math.random()}`,
+          body: '',
+        },
+      ];
+
+      return {
+        ...state,
+        lampiran: newLampiran,
+      } as SuratBiasa;
+    }
+    case LampiranAction.Set: {
+      if (!action?.payload?.id) return state;
+
+      const newLampiran = state.lampiran.map((lampiran) => {
+        if (action.payload?.id !== lampiran.id) return lampiran;
+
+        return {
+          ...lampiran,
+          body: action.payload.body,
+        } as LampiranCustom;
+      });
+
+      return {
+        ...state,
+        lampiran: newLampiran,
+      } as SuratBiasa;
+    }
+    case LampiranAction.Delete: {
+      if (!action?.payload?.id) return state;
+
+      const newLampiran = state.lampiran.filter(
+        (lampiran) => lampiran.id !== action.payload?.id
+      );
+
+      return {
+        ...state,
+        lampiran: newLampiran,
+      } as SuratBiasa;
+    }
+
     default: {
       throw Error('Unknown action: ' + action.type);
     }

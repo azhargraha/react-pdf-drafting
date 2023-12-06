@@ -1,16 +1,20 @@
 'use client';
-import Image from 'next/image';
-import { ReactElement, ReactNode, useState } from 'react';
-import { Roboto } from 'next/font/google';
-import Link from 'next/link';
 import cl from 'classnames';
+import { Roboto } from 'next/font/google';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ChangeEvent, ReactElement, ReactNode, useState } from 'react';
 
 import SidebarLogo from '@/../public/sidebar-logo.png';
-import { usePathname } from 'next/navigation';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
-import { ContentSectionForm } from '@/types/surat';
-import { DownloadIcon, Cross1Icon } from '@radix-ui/react-icons';
+import {
+  ContentSectionForm,
+  LampiranCustom,
+  LampiranSectionForm,
+} from '@/types/surat';
+import { Cross1Icon, DownloadIcon } from '@radix-ui/react-icons';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { usePathname } from 'next/navigation';
 import Button from '../Button';
 import NoSSR from '../NoSSR';
 import SuratBiasa from '../Surat/Biasa';
@@ -18,7 +22,10 @@ import BadanForm from '../Surat/Form/Badan';
 import KakiForm from '../Surat/Form/Kaki';
 import KepalaForm from '../Surat/Form/Kepala';
 import KopForm from '../Surat/Form/Kop';
-import FileIcon from '@/../public/images/file-icon.svg';
+import LampiranForm from '../Surat/Form/Lampiran';
+import SuratPerintah from '../Surat/Perintah';
+import { useRouter } from 'next/router';
+import PlaceholderForm from '../Surat/Form/Placeholder';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -27,7 +34,6 @@ const roboto = Roboto({
 
 interface MainLayoutProps {
   children: ReactNode | ReactElement;
-  title?: string;
 }
 
 const links = [
@@ -45,10 +51,50 @@ const links = [
   },
 ];
 
-const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const pathname = usePathname();
-  const { state } = useSuratBiasaContext();
-  const [activeForm, setActiveForm] = useState<ContentSectionForm | null>(null);
+  const router = useRouter();
+  const { state, dispatch } = useSuratBiasaContext();
+  const [activeForm, setActiveForm] = useState<
+    ContentSectionForm | LampiranSectionForm | null
+  >(null);
+
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [fileContents, setFileContents] = useState<string | null>(null);
+
+  const formatFileSize = (bytes: number) => {
+    const sufixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sufixes[i]}`;
+  };
+
+  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (files) {
+      setSelectedFiles(Array.from(files));
+
+      if (files.length > 0) {
+        readContents(files[0]);
+      }
+    }
+  };
+
+  const readContents = (file: File) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      const contents = e.target?.result as string;
+      setFileContents(contents);
+      console.log(contents);
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  const changeSurat = (href: string) => {
+    router.push(`/${pathname.split('/')[1]}/${href}`);
+  };
 
   return (
     <div className={`${roboto.className} flex flex-col h-screen `}>
@@ -76,8 +122,20 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
       <div className="flex overflow-hidden h-full">
         <div className="flex-0 w-[72%] bg-gray-100 h-full flex flex-col">
           <nav className="bg-white/50 px-6 py-3 border-b border-solid border-gray-200 flex justify-between items-center">
-            <header>
-              <h1 className="font-semibold text-xl">{title}</h1>
+            <header className="flex items-center gap-6">
+              <h1 className="font-semibold text-xl">Konsep Naskah</h1>
+              <div className="border-l border-l-gray-400 pl-4">
+                <select
+                  name="surat-option"
+                  id="surat-option"
+                  onChange={(e) => changeSurat(e.target.value)}
+                  value={pathname.split('/')[2]}
+                  className="bg-transparent outline-none"
+                >
+                  <option value="surat-biasa">Surat biasa</option>
+                  <option value="surat-perintah">Surat perintah</option>
+                </select>
+              </div>
             </header>
             <div className="flex gap-2">
               <NoSSR>
@@ -107,10 +165,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
           </nav>
           <main className="flex overflow-hidden h-full">{children}</main>
         </div>
-        <aside className="flex-1 bg-white px-8 py-6 border-l border-solid border-gray-200 overflow-auto">
+        <aside className="flex-1 bg-white px-8 py-6 border-l border-solid border-gray-200 overflow-auto flex flex-col">
           {activeForm && (
             <header className="mb-6 flex justify-between items-center">
-              <h1 className="text-2xl">{activeForm}</h1>
+              <h1 className="text-2xl">
+                {(activeForm as LampiranSectionForm)?.section || activeForm}
+              </h1>
               <Cross1Icon
                 className="cursor-pointer"
                 height={16}
@@ -119,18 +179,24 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, title }) => {
               />
             </header>
           )}
-          <div className="flex flex-col gap-6 h-full">
+          <div className="flex flex-col gap-6 flex-1">
             {!activeForm && (
-              <div className="flex flex-col justify-center items-center gap-6 h-full">
-                <div className="scale-[.43] border border-gray-400">
-                  <SuratBiasa data={state} setContentForm={setActiveForm} />
-                </div>
-              </div>
+              <PlaceholderForm
+                addLampiran={() => dispatch.addLampiran()}
+                uploadFile={uploadFile}
+                withLampiran
+              >
+                <SuratBiasa data={state} setContentForm={setActiveForm} />
+              </PlaceholderForm>
             )}
             {activeForm === ContentSectionForm.Kop && <KopForm />}
             {activeForm === ContentSectionForm.Kepala && <KepalaForm />}
             {activeForm === ContentSectionForm.Badan && <BadanForm />}
             {activeForm === ContentSectionForm.Kaki && <KakiForm />}
+            {(activeForm as LampiranSectionForm)?.section ===
+              ContentSectionForm.Lampiran && (
+              <LampiranForm id={(activeForm as LampiranSectionForm).id} />
+            )}
           </div>
         </aside>
       </div>

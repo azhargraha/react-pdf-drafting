@@ -1,7 +1,7 @@
 import { Option } from './types/input';
-import { LevelKop, SuratBiasa } from './types/surat';
+import { LevelKop, Employee, SuratBiasa } from './types/surat';
 
-export const levelKopOptions: Option[] = [
+export const levelKopOptions: Option<LevelKop>[] = [
   {
     value: LevelKop.Sekda,
     label: LevelKop.Sekda,
@@ -16,7 +16,7 @@ export const levelKopOptions: Option[] = [
   },
 ];
 
-export const tipeTujuanOptions: Option[] = [
+export const tipeTujuanOptions: Option<string>[] = [
   {
     value: 'Kepala Surat',
     label: 'Kepala Surat',
@@ -27,209 +27,186 @@ export const tipeTujuanOptions: Option[] = [
   },
 ];
 
-export const personOptions: Option[] = [
+export const employeeOptions: Option<string, Employee>[] = [
   {
-    value: 'Person 1',
-    label: 'Person 1',
-  },
-  {
-    value: 'Person 2',
-    label: 'Person 2',
-  },
-  {
-    value: 'Person 3',
-    label: 'Person 3',
-  },
-  {
-    value: 'Person 4',
-    label: 'Person 4',
-  },
-  {
-    value: 'Person 5',
-    label: 'Person 5',
-  },
-  {
-    value: 'Person 6',
-    label: 'Person 6',
-  },
-  {
-    value: 'Person 7',
-    label: 'Person 7',
-  },
-  {
-    value: 'Person 8',
-    label: 'Person 8',
-  },
-  {
-    value: 'Person 9',
-    label: 'Person 9',
-  },
-  {
-    value: 'Person 10',
-    label: 'Person 10',
-  },
-];
-
-export const penandatanganOptions: Option[] = [
-  {
+    label: 'John Doe',
     value: {
-      nama: 'Person 1',
-      jabatan: 'Jabatan A',
+      nama: 'John Doe',
+      jabatan: 'Manager',
+      NIP: '123456789012345678',
       pangkat: 'Pangkat A',
     },
-    label: 'Person 1',
   },
   {
+    label: 'Jane Smith',
     value: {
-      nama: 'Person 2',
-      jabatan: 'Jabatan B',
+      nama: 'Jane Smith',
+      jabatan: 'Supervisor',
+      NIP: '234567890123456789',
       pangkat: 'Pangkat B',
     },
-    label: 'Person 2',
   },
   {
+    label: 'Michael Johnson',
     value: {
-      nama: 'Person 3',
-      jabatan: 'Jabatan C',
+      nama: 'Michael Johnson',
+      jabatan: 'Engineer',
+      NIP: '345678901234567890',
+      pangkat: 'Pangkat A',
+    },
+  },
+  {
+    label: 'Emily Davis',
+    value: {
+      nama: 'Emily Davis',
+      jabatan: 'Manager',
+      NIP: '456789012345678901',
       pangkat: 'Pangkat C',
     },
-    label: 'Person 3',
   },
   {
+    label: 'Daniel White',
     value: {
-      nama: 'Person 4',
-      jabatan: 'Jabatan D',
-      pangkat: 'Pangkat D',
+      nama: 'Daniel White',
+      jabatan: 'Supervisor',
+      NIP: '567890123456789012',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 4',
   },
   {
+    label: 'Sophia Brown',
     value: {
-      nama: 'Person 5',
-      jabatan: 'Jabatan E',
-      pangkat: 'Pangkat E',
+      nama: 'Sophia Brown',
+      jabatan: 'Engineer',
+      NIP: '678901234567890123',
+      pangkat: 'Pangkat B',
     },
-    label: 'Person 5',
   },
   {
+    label: 'William Taylor',
     value: {
-      nama: 'Person 6',
-      jabatan: 'Jabatan F',
-      pangkat: 'Pangkat F',
+      nama: 'William Taylor',
+      jabatan: 'Manager',
+      NIP: '789012345678901234',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 6',
   },
   {
+    label: 'Olivia Anderson',
     value: {
-      nama: 'Person 7',
-      jabatan: 'Jabatan G',
-      pangkat: 'Pangkat G',
+      nama: 'Olivia Anderson',
+      jabatan: 'Supervisor',
+      NIP: '890123456789012345',
+      pangkat: 'Pangkat C',
     },
-    label: 'Person 7',
   },
   {
+    label: 'Liam Martinez',
     value: {
-      nama: 'Person 8',
-      jabatan: 'Jabatan H',
-      pangkat: 'Pangkat H',
+      nama: 'Liam Martinez',
+      jabatan: 'Engineer',
+      NIP: '901234567890123456',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 8',
   },
   {
+    label: 'Ava Wilson',
     value: {
-      nama: 'Person 9',
-      jabatan: 'Jabatan I',
-      pangkat: 'Pangkat I',
+      nama: 'Ava Wilson',
+      jabatan: 'Manager',
+      NIP: '012345678901234567',
+      pangkat: 'Pangkat B',
     },
-    label: 'Person 9',
   },
   {
+    label: 'Ethan Thomas',
     value: {
-      nama: 'Person 10',
-      jabatan: 'Jabatan J',
-      pangkat: 'Pangkat J',
+      nama: 'Ethan Thomas',
+      jabatan: 'Supervisor',
+      NIP: '112233445566778899',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 10',
   },
   {
+    label: 'Mia Walker',
     value: {
-      nama: 'Person 11',
-      jabatan: 'Jabatan K',
-      pangkat: 'Pangkat K',
+      nama: 'Mia Walker',
+      jabatan: 'Engineer',
+      NIP: '998877665544332211',
+      pangkat: 'Pangkat C',
     },
-    label: 'Person 11',
   },
   {
+    label: 'James Turner',
     value: {
-      nama: 'Person 12',
-      jabatan: 'Jabatan L',
-      pangkat: 'Pangkat L',
+      nama: 'James Turner',
+      jabatan: 'Manager',
+      NIP: '987654321098765432',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 12',
   },
   {
+    label: 'Emma Harris',
     value: {
-      nama: 'Person 13',
-      jabatan: 'Jabatan M',
-      pangkat: 'Pangkat M',
+      nama: 'Emma Harris',
+      jabatan: 'Supervisor',
+      NIP: '876543210987654321',
+      pangkat: 'Pangkat B',
     },
-    label: 'Person 13',
   },
   {
+    label: 'Noah Clark',
     value: {
-      nama: 'Person 14',
-      jabatan: 'Jabatan N',
-      pangkat: 'Pangkat N',
+      nama: 'Noah Clark',
+      jabatan: 'Engineer',
+      NIP: '765432109876543210',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 14',
   },
   {
+    label: 'Isabella Turner',
     value: {
-      nama: 'Person 15',
-      jabatan: 'Jabatan O',
-      pangkat: 'Pangkat O',
+      nama: 'Isabella Turner',
+      jabatan: 'Manager',
+      NIP: '654321098765432109',
+      pangkat: 'Pangkat C',
     },
-    label: 'Person 15',
   },
   {
+    label: 'Sophia Johnson',
     value: {
-      nama: 'Person 16',
-      jabatan: 'Jabatan P',
-      pangkat: 'Pangkat P',
+      nama: 'Sophia Johnson',
+      jabatan: 'Supervisor',
+      NIP: '543210987654321098',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 16',
   },
   {
+    label: 'Elijah Adams',
     value: {
-      nama: 'Person 17',
-      jabatan: 'Jabatan Q',
-      pangkat: 'Pangkat Q',
+      nama: 'Elijah Adams',
+      jabatan: 'Engineer',
+      NIP: '432109876543210987',
+      pangkat: 'Pangkat B',
     },
-    label: 'Person 17',
   },
   {
+    label: 'Ava Martin',
     value: {
-      nama: 'Person 18',
-      jabatan: 'Jabatan R',
-      pangkat: 'Pangkat R',
+      nama: 'Ava Martin',
+      jabatan: 'Manager',
+      NIP: '321098765432109876',
+      pangkat: 'Pangkat A',
     },
-    label: 'Person 18',
   },
   {
+    label: 'Jackson Thomas',
     value: {
-      nama: 'Person 19',
-      jabatan: 'Jabatan S',
-      pangkat: 'Pangkat S',
+      nama: 'Jackson Thomas',
+      jabatan: 'Supervisor',
+      NIP: '210987654321098765',
+      pangkat: 'Pangkat C',
     },
-    label: 'Person 19',
-  },
-  {
-    value: {
-      nama: 'Person 20',
-      jabatan: 'Jabatan T',
-      pangkat: 'Pangkat T',
-    },
-    label: 'Person 20',
   },
 ];
 
@@ -296,7 +273,7 @@ export const initialSuratBiasa: SuratBiasa = {
   tanggalPenulisan: new Date(),
   tempatPenulisan: 'Bandung',
   tipeTujuan: tipeTujuanOptions[0].value,
-  tujuan: '',
+  penerima: [],
   lokasiTujuan: '',
   kodeKlasifikasi: '',
   unitPengolah: '',
@@ -307,4 +284,6 @@ export const initialSuratBiasa: SuratBiasa = {
   penandatangan: null,
   pemeriksa: [],
   tembusan: [],
+  lampiran: [],
+  files: [],
 };

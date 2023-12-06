@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 /* override react-pdf-viewer styling */
+.rpv-core__page-layer {
+    --rpv-core__page-layer-box-shadow: 0 0 0 4px #f3f4f6 !important;
+}
+
 .rpv-core__inner-pages {
     @apply py-6;
 }

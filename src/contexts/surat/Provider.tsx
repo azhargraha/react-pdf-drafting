@@ -5,18 +5,23 @@ import React, {
   useContext,
   useReducer,
 } from 'react';
-import { SuratBiasaSetAction, suratBiasaReducer } from './reducer';
+
 import { initialSuratBiasa } from '@/dummy';
-import { SuratBiasa } from '@/types/surat';
+import { LampiranCustom, SuratBiasa } from '@/types/surat';
+import {
+  LampiranAction,
+  SuratBiasaSetAction,
+  suratBiasaReducer,
+} from './reducer';
 
 export type SuratContextType = {
   state: Partial<SuratBiasa>;
   dispatch: {
     setLevelSurat: (payload: SuratBiasa['levelSurat']) => void;
     setUptd: (payload: SuratBiasa['uptd']) => void;
-    setTempatPenulisan: (payload: SuratBiasa['uptd']) => void;
+    setTempatPenulisan: (payload: SuratBiasa['tempatPenulisan']) => void;
     setTipeTujuan: (payload: SuratBiasa['tipeTujuan']) => void;
-    setTujuan: (payload: SuratBiasa['tujuan']) => void;
+    setPenerima: (payload: SuratBiasa['penerima']) => void;
     setLokasiTujuan: (payload: SuratBiasa['lokasiTujuan']) => void;
     setKodeKlasifikasi: (payload: SuratBiasa['kodeKlasifikasi']) => void;
     setUnitPengolah: (payload: SuratBiasa['unitPengolah']) => void;
@@ -27,6 +32,11 @@ export type SuratContextType = {
     setPenandatangan: (payload: SuratBiasa['penandatangan']) => void;
     setPemeriksa: (payload: SuratBiasa['pemeriksa']) => void;
     setTembusan: (payload: SuratBiasa['tembusan']) => void;
+    addLampiran: () => void;
+    setLampiran: (payload: LampiranCustom) => void;
+    deleteLampiran: (id: LampiranCustom['id']) => void;
+    setFile: (payload: SuratBiasa['files']) => void;
+    deleteFile: (idx: number) => void;
   };
 };
 
@@ -80,11 +90,11 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
-  const setTujuan = (payload: SuratBiasa['tujuan']) => {
+  const setPenerima = (payload: SuratBiasa['penerima']) => {
     dispatch({
-      type: SuratBiasaSetAction.Tujuan,
+      type: SuratBiasaSetAction.Penerima,
       payload: {
-        tujuan: payload,
+        penerima: payload,
       },
     });
   };
@@ -179,6 +189,46 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
+  const addLampiran = () => {
+    dispatch({
+      type: LampiranAction.Add,
+    });
+  };
+
+  const setLampiran = (payload: LampiranCustom) => {
+    dispatch({
+      type: LampiranAction.Set,
+      payload,
+    });
+  };
+
+  const deleteLampiran = (id: LampiranCustom['id']) => {
+    dispatch({
+      type: LampiranAction.Delete,
+      payload: {
+        id,
+      },
+    });
+  };
+
+  const setFile = (payload: SuratBiasa['files']) => {
+    dispatch({
+      type: LampiranAction.Set,
+      payload: {
+        files: payload,
+      },
+    });
+  };
+
+  const deleteFile = (idx: number) => {
+    dispatch({
+      type: LampiranAction.Delete,
+      payload: {
+        idx,
+      },
+    });
+  };
+
   return (
     <SuratBiasaContext.Provider
       value={{
@@ -188,7 +238,7 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
           setUptd,
           setTempatPenulisan,
           setTipeTujuan,
-          setTujuan,
+          setPenerima,
           setLokasiTujuan,
           setKodeKlasifikasi,
           setUnitPengolah,
@@ -199,6 +249,11 @@ const SuratBiasaProvider: React.FC<SuratProviderProps> = ({ children }) => {
           setPenandatangan,
           setPemeriksa,
           setTembusan,
+          addLampiran,
+          setLampiran,
+          deleteLampiran,
+          setFile,
+          deleteFile,
         },
       }}
     >

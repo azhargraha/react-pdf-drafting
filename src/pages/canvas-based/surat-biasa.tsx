@@ -1,13 +1,10 @@
 import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { BlobProvider } from '@react-pdf/renderer';
-import cl from 'classnames';
-import { useState } from 'react';
 
 import NoSSR from '@/components/NoSSR';
 import SuratBiasa from '@/components/Surat/Biasa';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
-import { ContentSectionForm } from '@/types/surat';
 
 const Home = () => {
   const { state } = useSuratBiasaContext();

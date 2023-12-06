@@ -1,7 +1,8 @@
 import Select from '@/components/Select';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
-import { penandatanganOptions, personOptions } from '@/dummy';
+import { employeeOptions } from '@/dummy';
 import { Option } from '@/types/input';
+import { Employee } from '@/types/surat';
 
 const KakiForm = () => {
   const { dispatch } = useSuratBiasaContext();
@@ -14,7 +15,7 @@ const KakiForm = () => {
         onChange={(selected) =>
           dispatch.setPenandatangan((selected as Option).value || '')
         }
-        options={penandatanganOptions}
+        options={employeeOptions}
       />
       <Select
         label="Pemeriksa"
@@ -25,7 +26,7 @@ const KakiForm = () => {
 
           dispatch.setPemeriksa(newPemeriksa);
         }}
-        options={personOptions}
+        options={employeeOptions}
         isMulti
       />
       <Select
@@ -34,11 +35,13 @@ const KakiForm = () => {
         placeholder="Pilih/ketik tembusan naskah"
         name="tembusan"
         onChange={(selected) => {
-          const newTembusan = (selected as Option[]).map(({ value }) => value);
+          const newTembusan: Employee[] = (selected as Option[]).map(
+            (option) => option.value
+          );
 
           dispatch.setTembusan(newTembusan);
         }}
-        options={personOptions}
+        options={employeeOptions}
         isMulti
       />
     </>

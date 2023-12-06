@@ -1,7 +1,7 @@
 import Textfield from '@/components/Textfield';
 import {
   tipeTujuanOptions,
-  personOptions,
+  employeeOptions,
   sifatSuratOptions,
   kodeKlasifikasiOptions,
 } from '@/dummy';
@@ -9,6 +9,7 @@ import RadioGroup from '@/components/Radio/Group';
 import Select from '@/components/Select';
 import { Option } from '@/types/input';
 import { useSuratBiasaContext } from '@/contexts/surat/Provider';
+import { Employee } from '@/types/surat';
 
 const KepalaForm = () => {
   const { state, dispatch } = useSuratBiasaContext();
@@ -35,10 +36,15 @@ const KepalaForm = () => {
         placeholder="Pilih/ketik tujuan surat"
         name="tujuan"
         id="tujuan"
-        onChange={(selected) =>
-          dispatch.setTujuan((selected as Option).value || '')
-        }
-        options={personOptions}
+        onChange={(selected) => {
+          const newPenerima: Employee[] = (selected as Option[]).map(
+            (option) => option.value
+          );
+
+          return dispatch.setPenerima(newPenerima);
+        }}
+        options={employeeOptions}
+        isMulti
       />
       <Textfield
         label="Di"
@@ -80,7 +86,7 @@ const KepalaForm = () => {
         onChange={(selected) =>
           dispatch.setUrgensi((selected as Option).value || '')
         }
-        options={personOptions}
+        options={employeeOptions}
       />
       <Textfield
         label="Perihal"
