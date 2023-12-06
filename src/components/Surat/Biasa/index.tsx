@@ -5,11 +5,11 @@ import React from 'react';
 
 import { ContentSectionForm, SuratBiasa, SuratProps } from '@/types/surat';
 import { Html } from 'react-pdf-html';
-import ContentSectionOverlay from './ContentSectionOverlay';
-import Kaki from './Element/Kaki';
-import Kop from './Element/Kop';
-import Lampiran from './Element/Lampiran';
-import { CSSStyles, renderers, styles } from './config';
+import ContentSectionOverlay from '../ContentSectionOverlay';
+import Kaki from '../Element/Kaki';
+import Kop from '../Element/Kop';
+import Lampiran from '../Element/Lampiran';
+import { CSSStyles, renderers, styles } from '../config';
 
 const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
   isPreview = false,

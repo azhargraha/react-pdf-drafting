@@ -1,6 +1,5 @@
 import Button from '@/components/Button';
 import React, { ChangeEvent, ReactNode } from 'react';
-import SuratPerintah from '../Perintah';
 
 interface PlaceholderFormProps {
   children: ReactNode;

@@ -3,29 +3,21 @@ import cl from 'classnames';
 import { Roboto } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChangeEvent, ReactElement, ReactNode, useState } from 'react';
-
-import SidebarLogo from '@/../public/sidebar-logo.png';
-import { useSuratContext } from '@/contexts/surat/Provider';
-import {
-  ContentSectionForm,
-  LampiranCustom,
-  LampiranSectionForm,
-} from '@/types/surat';
+import { ReactElement, ReactNode, useState } from 'react';
 import { Cross1Icon, DownloadIcon } from '@radix-ui/react-icons';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/router';
+
+import SidebarLogo from '@/../public/sidebar-logo.png';
+import { useSuratContext } from '@/contexts/surat/Provider';
+import { ContentSectionForm, LampiranSectionForm } from '@/types/surat';
 import Button from '../Button';
 import NoSSR from '../NoSSR';
 import SuratBiasa from '../Surat/Biasa';
-import BadanForm from '../Surat/Form/Badan';
-import KakiForm from '../Surat/Form/Kaki';
-import KepalaForm from '../Surat/Form/Kepala';
-import KopForm from '../Surat/Form/Kop';
-import LampiranForm from '../Surat/Form/Lampiran';
+import SuratBiasaForm from '../Surat/Biasa/Form';
 import SuratPerintah from '../Surat/Perintah';
-import { useRouter } from 'next/router';
-import PlaceholderForm from '../Surat/Form/Placeholder';
+import SuratPerintahForm from '../Surat/Perintah/Form';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -53,49 +45,44 @@ const links = [
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const pathname = usePathname();
+  const [_, renderingMode, documentType] = pathname.split('/');
   const router = useRouter();
   const { state, dispatch } = useSuratContext();
   const [activeForm, setActiveForm] = useState<
     ContentSectionForm | LampiranSectionForm | null
   >(null);
 
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [fileContents, setFileContents] = useState<string | null>(null);
-
-  const formatFileSize = (bytes: number) => {
-    const sufixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sufixes[i]}`;
-  };
-
-  const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-
-    if (files) {
-      setSelectedFiles(Array.from(files));
-
-      if (files.length > 0) {
-        readContents(files[0]);
-      }
-    }
-  };
-
-  const readContents = (file: File) => {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const contents = e.target?.result as string;
-      setFileContents(contents);
-      console.log(contents);
+  const document = (isPreview: boolean = false) => {
+    const props = {
+      data: state,
+      setContentForm: setActiveForm,
+      isPreview,
     };
 
-    reader.readAsDataURL(file);
+    if (documentType === 'surat-perintah') {
+      return <SuratPerintah {...props} />;
+    }
+
+    return <SuratBiasa {...props} />;
+  };
+
+  const form = () => {
+    const props = {
+      activeForm,
+      document: document(),
+    };
+
+    if (documentType === 'surat-perintah') {
+      return <SuratPerintahForm {...props} />;
+    }
+
+    return <SuratBiasaForm {...props} />;
   };
 
   const changeSurat = (href: string) => {
     setActiveForm(null);
     dispatch.resetSurat();
-    router.push(`/${pathname.split('/')[1]}/${href}`);
+    router.push(`/${renderingMode}/${href}`);
   };
 
   return (
@@ -131,7 +118,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
                   name="surat-option"
                   id="surat-option"
                   onChange={(e) => changeSurat(e.target.value)}
-                  value={pathname.split('/')[2]}
+                  value={documentType}
                   className="bg-transparent outline-none"
                 >
                   <option value="surat-biasa">Surat biasa</option>
@@ -142,7 +129,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <div className="flex gap-2">
               <NoSSR>
                 <PDFDownloadLink
-                  document={<SuratBiasa data={state} isPreview />}
+                  document={document(true)}
                   fileName="Surat Biasa"
                 >
                   {({ blob, url, loading, error }) => {
@@ -181,25 +168,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               />
             </header>
           )}
-          <div className="flex flex-col gap-6 flex-1">
-            {!activeForm && (
-              <PlaceholderForm
-                addLampiran={() => dispatch.addLampiran()}
-                uploadFile={uploadFile}
-                withLampiran
-              >
-                <SuratBiasa data={state} setContentForm={setActiveForm} />
-              </PlaceholderForm>
-            )}
-            {activeForm === ContentSectionForm.Kop && <KopForm />}
-            {activeForm === ContentSectionForm.Kepala && <KepalaForm />}
-            {activeForm === ContentSectionForm.Badan && <BadanForm />}
-            {activeForm === ContentSectionForm.Kaki && <KakiForm />}
-            {(activeForm as LampiranSectionForm)?.section ===
-              ContentSectionForm.Lampiran && (
-              <LampiranForm id={(activeForm as LampiranSectionForm).id} />
-            )}
-          </div>
+          <div className="flex flex-col gap-6 flex-1">{form()}</div>
         </aside>
       </div>
     </div>
