@@ -81,7 +81,9 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
               <Text style={{ ...styles.text, width: 70 }}>Lampiran</Text>
               <Text style={styles.text}>:</Text>
               <Text style={{ ...styles.text, width: 271 }}>
-                {data.tipeTujuan !== 'Lampiran' ? '-' : '1 Berkas'}
+                {data.lampiran && data.tipeTujuan === 'Lampiran'
+                  ? `${data.lampiran.length} Berkas`
+                  : '-'}
               </Text>
             </View>
             <View style={{ ...styles.row, gap: 6 }}>

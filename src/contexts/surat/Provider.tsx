@@ -35,6 +35,7 @@ export type SuratContextType = {
     addLampiran: () => void;
     setLampiran: (payload: LampiranCustom) => void;
     deleteLampiran: (id: LampiranCustom['id']) => void;
+    resetLampiran: () => void;
     setFile: (payload: LampiranSurat['files']) => void;
     deleteFile: (idx: number) => void;
     setDasar: (payload: SuratReducerState['dasar']) => void;
@@ -214,6 +215,12 @@ const SuratProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
+  const resetLampiran = () => {
+    dispatch({
+      type: LampiranAction.Reset,
+    });
+  };
+
   const setFile = (payload: LampiranSurat['files']) => {
     dispatch({
       type: LampiranAction.Set,
@@ -270,6 +277,7 @@ const SuratProvider: React.FC<SuratProviderProps> = ({ children }) => {
           addLampiran,
           setLampiran,
           deleteLampiran,
+          resetLampiran,
           setFile,
           deleteFile,
           setDasar,

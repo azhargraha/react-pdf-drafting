@@ -37,7 +37,11 @@ const KepalaForm = () => {
         id="tipe-tujuan"
         options={tipeTujuanOptions}
         label="Penempatan Daftar Tujuan Surat"
-        onChange={(e) => dispatch.setTipeTujuan(e.target.value)}
+        onChange={(e) => {
+          dispatch.resetLampiran();
+          if (e.target.value === 'Lampiran') dispatch.addLampiran();
+          dispatch.setTipeTujuan(e.target.value);
+        }}
         defaultOption={tipeTujuanOptions[0]}
       />
       <Select

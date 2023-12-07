@@ -33,6 +33,7 @@ export enum LampiranAction {
   Add = 'ADD_LAMPIRAN',
   Set = 'SET_LAMPIRAN',
   Delete = 'DELETE_LAMPIRAN',
+  Reset = 'RESET_LAMPIRAN',
 }
 
 export enum FileAction {
@@ -218,6 +219,12 @@ export const suratReducer = (
       return {
         ...state,
         lampiran: newLampiran,
+      } as SuratReducerState;
+    }
+    case LampiranAction.Reset: {
+      return {
+        ...state,
+        lampiran: [],
       } as SuratReducerState;
     }
 
