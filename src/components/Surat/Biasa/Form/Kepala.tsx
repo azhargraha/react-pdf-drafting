@@ -10,17 +10,26 @@ import Select from '@/components/Select';
 import { Option } from '@/types/input';
 import { useSuratContext } from '@/contexts/surat/Provider';
 import { Employee } from '@/types/surat';
+import { useDebouncedCallback } from '@/hooks/useDebounce';
+import { ChangeEvent } from 'react';
+import useTextfieldDebounce from '@/hooks/useTextfieldDebounce';
 
 const KepalaForm = () => {
   const { state, dispatch } = useSuratContext();
+
+  const debounceTextfieldChange = useTextfieldDebounce();
 
   return (
     <>
       <Textfield
         label="Tempat Penulisan Surat"
         placeholder="Ketik tempat penulisan surat"
-        value={state.tempatPenulisan}
-        onChange={(e) => dispatch.setTempatPenulisan(e.target.value)}
+        defaultValue={state.tempatPenulisan}
+        onChange={(e) =>
+          debounceTextfieldChange(() =>
+            dispatch.setTempatPenulisan(e.target.value)
+          )
+        }
       />
       <RadioGroup
         variant="row"
@@ -51,8 +60,12 @@ const KepalaForm = () => {
         name="lokasiTujuan"
         id="lokasiTujuan"
         placeholder="Ketik lokasi penerima"
-        value={state.lokasiTujuan}
-        onChange={(e) => dispatch.setLokasiTujuan(e.target.value)}
+        defaultValue={state.lokasiTujuan}
+        onChange={(e) =>
+          debounceTextfieldChange(() =>
+            dispatch.setLokasiTujuan(e.target.value)
+          )
+        }
       />
       <Select
         label="Kode Klasifikasi"
@@ -67,8 +80,12 @@ const KepalaForm = () => {
         label="Unit Pengolah"
         name="unitPengolah"
         placeholder="Ketik unit pengolah"
-        value={state.unitPengolah}
-        onChange={(e) => dispatch.setUnitPengolah(e.target.value)}
+        defaultValue={state.unitPengolah}
+        onChange={(e) =>
+          debounceTextfieldChange(() =>
+            dispatch.setUnitPengolah(e.target.value)
+          )
+        }
       />
       <Select
         label="Sifat Surat"
@@ -92,8 +109,10 @@ const KepalaForm = () => {
         label="Perihal"
         placeholder="Pilih perihal"
         name="perihal"
-        value={state.perihal}
-        onChange={(e) => dispatch.setPerihal(e.target.value)}
+        defaultValue={state.perihal}
+        onChange={(e) =>
+          debounceTextfieldChange(() => dispatch.setPerihal(e.target.value))
+        }
       />
     </>
   );

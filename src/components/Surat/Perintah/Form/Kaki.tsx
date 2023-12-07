@@ -2,17 +2,24 @@ import Select from '@/components/Select';
 import Textfield from '@/components/Textfield';
 import { useSuratContext } from '@/contexts/surat/Provider';
 import { employeeOptions } from '@/dummy';
+import useTextfieldDebounce from '@/hooks/useTextfieldDebounce';
 import { Option } from '@/types/input';
 
 const KakiForm = () => {
   const { dispatch, state } = useSuratContext();
+  const debounceTextfieldChange = useTextfieldDebounce();
+
   return (
     <>
       <Textfield
         label="Tempat Penulisan Surat"
         placeholder="Ketik tempat penulisan surat"
         value={state.tempatPenulisan}
-        onChange={(e) => dispatch.setTempatPenulisan(e.target.value)}
+        onChange={(e) =>
+          debounceTextfieldChange(() =>
+            dispatch.setTempatPenulisan(e.target.value)
+          )
+        }
       />
       <Select
         label="Penandatangan"

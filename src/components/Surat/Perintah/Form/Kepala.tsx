@@ -4,12 +4,15 @@ import Textfield from '@/components/Textfield';
 import { useSuratContext } from '@/contexts/surat/Provider';
 import { employeeOptions, kodeKlasifikasiOptions } from '@/dummy';
 import useEditorDebounce from '@/hooks/useEditorDebounce';
+import useTextfieldDebounce from '@/hooks/useTextfieldDebounce';
 import { Option } from '@/types/input';
 
 const KepalaForm = () => {
   const { state, dispatch } = useSuratContext();
   const { editorRef, initialValue, debounceHandleEditorChange } =
     useEditorDebounce(state.dasar, (content) => dispatch.setDasar(content));
+
+  const debounceTextfieldChange = useTextfieldDebounce();
 
   return (
     <>
@@ -26,15 +29,21 @@ const KepalaForm = () => {
         label="Unit Pengolah"
         name="unitPengolah"
         placeholder="Ketik unit pengolah"
-        value={state.unitPengolah}
-        onChange={(e) => dispatch.setUnitPengolah(e.target.value)}
+        defaultValue={state.unitPengolah}
+        onChange={(e) =>
+          debounceTextfieldChange(() =>
+            dispatch.setUnitPengolah(e.target.value)
+          )
+        }
       />
       <Textfield
         label="Perihal"
         placeholder="Pilih perihal"
         name="perihal"
-        value={state.perihal}
-        onChange={(e) => dispatch.setPerihal(e.target.value)}
+        defaultValue={state.perihal}
+        onChange={(e) =>
+          debounceTextfieldChange(() => dispatch.setPerihal(e.target.value))
+        }
       />
       <Select
         label="Urgensi"
