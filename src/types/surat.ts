@@ -4,7 +4,9 @@ import { Dispatch, SetStateAction } from 'react';
 export interface SuratProps<TData> {
   isPreview?: boolean;
   data: Partial<TData>;
-  setContentForm?: Dispatch<SetStateAction<ContentSectionForm | null>>;
+  setContentForm?: Dispatch<
+    SetStateAction<ContentSectionForm | LampiranSectionForm | null>
+  >;
 }
 
 // data
