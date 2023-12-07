@@ -14,7 +14,7 @@ const KakiForm = () => {
       <Textfield
         label="Tempat Penulisan Surat"
         placeholder="Ketik tempat penulisan surat"
-        value={state.tempatPenulisan}
+        defaultValue={state.tempatPenulisan}
         onChange={(e) =>
           debounceTextfieldChange(() =>
             dispatch.setTempatPenulisan(e.target.value)
