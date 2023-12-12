@@ -29,8 +29,10 @@ export interface Surat {
   tembusan: Employee[];
 }
 
-export type LampiranFile = File;
-
+export type LampiranFile = {
+  id: string;
+  file: File;
+};
 export type LampiranCustom = {
   id: string;
   body: string;

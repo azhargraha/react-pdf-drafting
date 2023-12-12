@@ -17,7 +17,7 @@ const PlaceholderForm: React.FC<PlaceholderFormProps> = ({
   return (
     <div className="flex flex-col justify-between items-center gap-6 flex-1 h-full  overflow-hidden">
       <div className="h-[70vh] overflow-y-auto overflow-x-hidden">
-        <div className="scale-[.42] translate-x-[1%] origin-top border border-gray-400">
+        <div className="scale-[.42] translate-x-[1%] origin-top">
           {children}
         </div>
       </div>

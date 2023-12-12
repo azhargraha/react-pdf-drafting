@@ -3,13 +3,17 @@ import format from 'date-fns/format';
 import { id } from 'date-fns/locale';
 import React from 'react';
 
+import DeleteButton from '@/components/DeleteButton';
 import { ContentSectionForm, SuratBiasa, SuratProps } from '@/types/surat';
+import { FileIcon } from '@radix-ui/react-icons';
 import { Html } from 'react-pdf-html';
 import ContentSectionOverlay from '../ContentSectionOverlay';
 import Kaki from '../Element/Kaki';
 import Kop from '../Element/Kop';
 import Lampiran from '../Element/Lampiran';
 import { CSSStyles, renderers, styles } from '../config';
+import formatFileSize from '@/utils/formatFileSize';
+import UploadedFile from '../Element/UploadedFile';
 
 const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
   isPreview = false,
@@ -26,7 +30,12 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
   return (
     <Document>
       <Page
-        style={{ ...styles.page, ...styles.column, gap: 18 }}
+        style={{
+          ...styles.page,
+          ...styles.column,
+          gap: 18,
+          border: !isPreview ? '1px solid #9ca3af' : 'none',
+        }}
         size="A4"
         dpi={96}
         wrap
@@ -47,7 +56,9 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
               {data.tempatPenulisan || 'Tempat belum diisi'},{' '}
             </Text>
             <Text style={{ ...styles.text }}>
-              {format(data.tanggalPenulisan!, 'dd MMMM yyyy', { locale: id })}
+              {format(data.tanggalPenulisan!, 'dd MMMM yyyy', {
+                locale: id,
+              })}
             </Text>
           </View>
         </View>
@@ -130,7 +141,11 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
                     ))
                   ) : (
                     <Text
-                      style={{ ...styles.text, width: 199, ...styles.empty }}
+                      style={{
+                        ...styles.text,
+                        width: 199,
+                        ...styles.empty,
+                      }}
                     >
                       Tujuan belum diisi
                     </Text>
@@ -197,6 +212,13 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
             setContentForm={setContentForm}
           />
         ))}
+      {!isPreview && data.files && data.files.length > 0 && (
+        <div className="flex flex-col gap-4 mt-4">
+          {data.files.map((file) => (
+            <UploadedFile key={file.id} id={file.id} file={file.file}  />
+          ))}
+        </div>
+      )}
     </Document>
   );
 };

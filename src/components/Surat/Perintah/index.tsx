@@ -107,7 +107,12 @@ const SuratPerintah: React.FC<SuratProps<SuratPerintah>> = ({
   return (
     <Document>
       <Page
-        style={{ ...styles.page, ...styles.column, gap: 18 }}
+        style={{
+          ...styles.page,
+          ...styles.column,
+          gap: 18,
+          border: !isPreview ? '1px solid #9ca3af' : 'none',
+        }}
         size="A4"
         dpi={96}
         wrap

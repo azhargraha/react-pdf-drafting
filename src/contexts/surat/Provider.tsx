@@ -9,10 +9,16 @@ import React, {
 import { initialSurat } from '@/dummy';
 import {
   LampiranCustom,
+  LampiranFile,
   LampiranSurat,
   SuratReducerState,
 } from '@/types/surat';
-import { LampiranAction, SuratAction, suratReducer } from './reducer';
+import {
+  FileAction,
+  LampiranAction,
+  SuratAction,
+  suratReducer,
+} from './reducer';
 
 export type SuratContextType = {
   state: Partial<SuratReducerState>;
@@ -36,8 +42,8 @@ export type SuratContextType = {
     setLampiran: (payload: LampiranCustom) => void;
     deleteLampiran: (id: LampiranCustom['id']) => void;
     resetLampiran: () => void;
-    setFile: (payload: LampiranSurat['files']) => void;
-    deleteFile: (idx: number) => void;
+    setFile: (payload: File[]) => void;
+    deleteFile: (id: LampiranFile['id']) => void;
     setDasar: (payload: SuratReducerState['dasar']) => void;
     resetSurat: () => void;
   };
@@ -221,20 +227,20 @@ const SuratProvider: React.FC<SuratProviderProps> = ({ children }) => {
     });
   };
 
-  const setFile = (payload: LampiranSurat['files']) => {
+  const setFile = (payload: File[]) => {
     dispatch({
-      type: LampiranAction.Set,
+      type: FileAction.Set,
       payload: {
-        files: payload,
+        uploadFiles: payload,
       },
     });
   };
 
-  const deleteFile = (idx: number) => {
+  const deleteFile = (id: LampiranFile['id']) => {
     dispatch({
-      type: LampiranAction.Delete,
+      type: FileAction.Delete,
       payload: {
-        idx,
+        id,
       },
     });
   };

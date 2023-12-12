@@ -6,6 +6,7 @@ import {
   SuratBiasa,
   Surat,
   LampiranSurat,
+  LampiranFile,
 } from '@/types/surat';
 
 export enum SuratAction {
@@ -44,8 +45,10 @@ export enum FileAction {
 export const suratReducer = (
   state: SuratReducerState,
   action: Action<
-    SuratAction | LampiranAction,
-    Partial<SuratReducerState & LampiranCustom & { idx: number }>
+    SuratAction | LampiranAction | FileAction,
+    Partial<
+      SuratReducerState & LampiranCustom & { idx: number; uploadFiles: File[] }
+    >
   >
 ) => {
   switch (action.type) {
@@ -189,15 +192,48 @@ export const suratReducer = (
         lampiran: newLampiran,
       } as SuratReducerState;
     }
-    case LampiranAction.Reset: {
+
+    case FileAction.Set: {
+      if (!action?.payload?.uploadFiles) return state;
+
+      const newFile = [
+        ...state.files,
+        ...action.payload.uploadFiles.map(
+          (file) =>
+            ({
+              id: `file-${Math.random()}`,
+              file: file,
+            } as LampiranFile)
+        ),
+      ];
+
       return {
         ...state,
-        lampiran: [],
+        files: newFile,
+      } as SuratReducerState;
+    }
+    case FileAction.Delete: {
+      if (!action?.payload?.id) return state;
+
+      const newFiles = state.files.filter(
+        (file) => file.id !== action.payload?.id
+      );
+
+      return {
+        ...state,
+        files: newFiles,
       } as SuratReducerState;
     }
 
     case SuratAction.Reset: {
       return initialSurat;
+    }
+    case LampiranAction.Reset: {
+      return {
+        ...state,
+        lampiran: [],
+        files: [],
+      } as SuratReducerState;
     }
 
     default: {

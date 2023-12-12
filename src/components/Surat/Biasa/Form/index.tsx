@@ -20,14 +20,11 @@ const SuratBiasaForm: React.FC<SuratBiasaFormProps> = ({
 }) => {
   const { dispatch } = useSuratContext();
 
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [fileContents, setFileContents] = useState<string | null>(null);
-
   const uploadFile = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (files) {
-      setSelectedFiles(Array.from(files));
+      dispatch.setFile(Array.from(files));
 
       if (files.length > 0) {
         readContents(files[0]);
@@ -40,7 +37,6 @@ const SuratBiasaForm: React.FC<SuratBiasaFormProps> = ({
 
     reader.onload = (e) => {
       const contents = e.target?.result as string;
-      setFileContents(contents);
       console.log(contents);
     };
 
