@@ -47,7 +47,14 @@ const Kaki: React.FC<KakiProps> = ({
           wrap
           break
         >
-          <Text style={styles.text}>Ditetapkan di {data.tempatPenulisan}</Text>
+          <Text
+            style={{
+              ...styles.text,
+              ...(!data.tempatPenulisan ? styles.empty : {}),
+            }}
+          >
+            Ditetapkan di {data.tempatPenulisan || '...'}
+          </Text>
           <Text style={styles.text}>
             Pada Tanggal{' '}
             {format(data.tanggalPenulisan!, 'dd MMMM yyyy', { locale: id })}

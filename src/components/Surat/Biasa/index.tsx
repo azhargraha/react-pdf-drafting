@@ -37,10 +37,19 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
           setContentForm={setContentForm}
         />
         <View style={{ ...styles.row, justifyContent: 'flex-end' }}>
-          <Text style={{ ...styles.text, width: 234 }}>
-            {data.tempatPenulisan},{' '}
-            {format(data.tanggalPenulisan!, 'dd MMMM yyyy', { locale: id })}
-          </Text>
+          <View style={{ ...styles.row, flexWrap: 'wrap', width: 234 }}>
+            <Text
+              style={{
+                ...styles.text,
+                ...(!data.tempatPenulisan ? styles.empty : {}),
+              }}
+            >
+              {data.tempatPenulisan || 'Tempat belum diisi'},{' '}
+            </Text>
+            <Text style={{ ...styles.text }}>
+              {format(data.tanggalPenulisan!, 'dd MMMM yyyy', { locale: id })}
+            </Text>
+          </View>
         </View>
         <View
           style={{
