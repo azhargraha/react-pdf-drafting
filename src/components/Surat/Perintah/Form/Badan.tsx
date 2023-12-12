@@ -7,24 +7,14 @@ import Select from '@/components/Select';
 import { employeeOptions } from '@/dummy';
 import { Option } from '@/types/input';
 import { Employee } from '@/types/surat';
+import useEditorDebounce from '@/hooks/useEditorDebounce';
 
 interface BadanFormProps {}
 
 const BadanForm: React.FC<BadanFormProps> = () => {
   const { dispatch, state } = useSuratContext();
-  const editorRef = useRef<TinyMCEEditorProps | null>(null);
-  const [initialValue] = useState(state.body); // avoid Editor rerender on state change
-
-  const handleEditorChange = () => {
-    if (editorRef.current) {
-      dispatch.setBody(editorRef.current.getContent());
-    }
-  };
-
-  const debounceHandleEditorChange = useDebouncedCallback(
-    handleEditorChange,
-    500
-  );
+  const { editorRef, initialValue, debounceHandleEditorChange } =
+    useEditorDebounce(state.body, (content) => dispatch.setBody(content));
 
   return (
     <>

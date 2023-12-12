@@ -1,6 +1,6 @@
 import { Font, StyleSheet, View } from '@react-pdf/renderer';
 import { Style } from '@react-pdf/types';
-import { CSSProperties } from 'react';
+import React, { CSSProperties } from 'react';
 import { HtmlStyles } from 'react-pdf-html';
 import { HtmlElement } from 'react-pdf-html/dist/parse';
 import { HtmlRenderers } from 'react-pdf-html/dist/render';
@@ -14,32 +14,450 @@ type Node = React.PropsWithChildren<{
 Font.registerHyphenationCallback((word) => [word]);
 
 Font.register({
-  family: 'Arial',
+  family: 'andale mono',
   fonts: [
     {
-      src: '/fonts/Arial.ttf',
+      src: '/fonts/andale-mono/ANDALEMO.TTF',
       fontStyle: 'normal',
       fontWeight: 400,
     },
     {
-      src: '/fonts/ArialI.ttf',
+      src: '/fonts/andale-mono/ANDALEMO.TTF',
       fontStyle: 'italic',
       fontWeight: 400,
     },
     {
-      src: '/fonts/ArialBD.ttf',
+      src: '/fonts/andale-mono/ANDALEMO.TTF',
       fontStyle: 'normal',
       fontWeight: 600,
     },
     {
-      src: '/fonts/ArialBI.ttf',
+      src: '/fonts/andale-mono/ANDALEMO.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'arial',
+  fonts: [
+    {
+      src: '/fonts/arial/Arial.ttf',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/arial/ArialI.ttf',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/arial/ArialBD.ttf',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/arial/ArialBI.ttf',
       fontStyle: 'italic',
       fontWeight: 600,
     },
     {
-      src: '/fonts/ArialBLK.ttf',
+      src: '/fonts/arial/ArialBLK.ttf',
       fontStyle: 'normal',
       fontWeight: 800,
+    },
+  ],
+});
+
+Font.register({
+  family: 'arial black',
+  fonts: [
+    {
+      src: '/fonts/arial-black/ArialBLK.ttf',
+      fontStyle: 'normal',
+      fontWeight: 800,
+    },
+    {
+      src: '/fonts/arial-black/ArialBLKZ.ttf',
+      fontStyle: 'italic',
+      fontWeight: 800,
+    },
+  ],
+});
+
+Font.register({
+  family: 'book antiqua',
+  fonts: [
+    {
+      src: '/fonts/book-antiqua/BKANT.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/book-antiqua/ANTQUAI.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/book-antiqua/ANTQUAB.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/book-antiqua/ANTQUABI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'comic sans ms',
+  fonts: [
+    {
+      src: '/fonts/comic-sans-ms/COMIC.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/comic-sans-ms/COMICI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/comic-sans-ms/COMICBD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/comic-sans-ms/COMICZ.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'courier new',
+  fonts: [
+    {
+      src: '/fonts/courier-new/COUR.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/courier-new/COURI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/courier-new/COURBD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/courier-new/COURBI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'georgia',
+  fonts: [
+    {
+      src: '/fonts/georgia/GEORGIA.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/georgia/GEORGIAI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/georgia/GEORGIAB.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/georgia/GEORGIAZ.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'helvetica',
+  fonts: [
+    {
+      src: '/fonts/helvetica/Helvetica.ttf',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/helvetica/Helvetica.ttf',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/helvetica/HelveticaB.ttf',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/helvetica/HelveticaB.ttf',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'impact',
+  fonts: [
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'impact',
+  fonts: [
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/impact/IMPACT.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'symbol',
+  fonts: [
+    {
+      src: '/fonts/symbol/SYMBOL.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/symbol/SYMBOL.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+  ],
+});
+
+Font.register({
+  family: 'tahoma',
+  fonts: [
+    {
+      src: '/fonts/tahoma/TAHOMA.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/tahoma/TAHOMA.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/tahoma/TAHOMABD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/tahoma/TAHOMABD.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'terminal',
+  fonts: [
+    {
+      src: '/fonts/terminal/Terminal.ttf',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/terminal/Terminal.ttf',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+  ],
+});
+
+Font.register({
+  family: 'times new roman',
+  fonts: [
+    {
+      src: '/fonts/times-new-roman/TIMES.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESBD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESBI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'times new roman',
+  fonts: [
+    {
+      src: '/fonts/times-new-roman/TIMES.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESBD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/times-new-roman/TIMESBI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'trebuchet ms',
+  fonts: [
+    {
+      src: '/fonts/trebuchet-ms/TREBUC.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/trebuchet-ms/TREBUCIT.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/trebuchet-ms/TREBUCBD.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/trebuchet-ms/TREBUCBI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'verdana',
+  fonts: [
+    {
+      src: '/fonts/verdana/VERDANA.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/verdana/VERDANAI.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/verdana/VERDANAB.TTF',
+      fontStyle: 'normal',
+      fontWeight: 600,
+    },
+    {
+      src: '/fonts/verdana/VERDANAZ.TTF',
+      fontStyle: 'italic',
+      fontWeight: 600,
+    },
+  ],
+});
+
+Font.register({
+  family: 'webdings',
+  fonts: [
+    {
+      src: '/fonts/webdings/WEBDINGS.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/webdings/WEBDINGS.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
+    },
+  ],
+});
+
+Font.register({
+  family: 'wingdings',
+  fonts: [
+    {
+      src: '/fonts/wingdings/WINGDINGS.TTF',
+      fontStyle: 'normal',
+      fontWeight: 400,
+    },
+    {
+      src: '/fonts/wingdings/WINGDINGS.TTF',
+      fontStyle: 'italic',
+      fontWeight: 400,
     },
   ],
 });
@@ -65,7 +483,7 @@ export const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     lineHeight: 1.5,
-    fontFamily: 'Arial',
+    fontFamily: 'arial',
     fontWeight: 400,
   },
   signatureBox: {
@@ -134,21 +552,32 @@ export const CSSStyles: { [key: string]: CSSProperties } = {
   p: {
     fontSize: 16,
     margin: 0,
-    lineHeight: 1.5,
-    fontFamily: 'Arial',
+    fontFamily: 'arial',
     fontWeight: 400,
   },
   span: {
     margin: 0,
+  },
+  ol: {
+    margin: 0,
+    marginLeft: -11.2,
+    padding: 0,
     lineHeight: 1.5,
-    fontFamily: 'Arial',
+  },
+  ul: {
+    margin: 0,
+    marginLeft: -16,
+    padding: 0,
+    lineHeight: 1.5,
+  },
+  li: {
+    fontFamily: 'arial',
     fontWeight: 400,
     fontSize: 16,
   },
   h1: {
     fontSize: 48,
     fontWeight: 'bold',
-    fontFamily: 'Arial',
   },
   h2: {
     fontSize: 40,
@@ -171,7 +600,7 @@ export const CSSStyles: { [key: string]: CSSProperties } = {
     fontWeight: 'bold',
   },
   strong: {
-    fontWeight: 700,
+    fontWeight: 600,
   },
   em: {
     fontStyle: 'italic',

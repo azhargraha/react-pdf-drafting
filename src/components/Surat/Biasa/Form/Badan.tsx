@@ -9,7 +9,7 @@ interface BadanFormProps {}
 const BadanForm: React.FC<BadanFormProps> = () => {
   const { dispatch, state } = useSuratContext();
   const { editorRef, initialValue, debounceHandleEditorChange } =
-    useEditorDebounce(state.dasar, (content) => dispatch.setBody(content));
+    useEditorDebounce(state.body, (content) => dispatch.setBody(content));
 
   return (
     <Editor

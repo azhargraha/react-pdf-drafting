@@ -1,34 +1,18 @@
-import { useSuratContext } from '@/contexts/surat/Provider';
-import { useDebouncedCallback } from '@/hooks/useDebounce';
-import { LampiranCustom } from '@/types/surat';
 import { Editor } from '@tinymce/tinymce-react';
-import React, { useRef, useState } from 'react';
-import { Editor as TinyMCEEditor } from 'tinymce';
+import React from 'react';
+
+import { useSuratContext } from '@/contexts/surat/Provider';
+import useEditorDebounce from '@/hooks/useEditorDebounce';
+import { LampiranCustom } from '@/types/surat';
 
 interface LampiranFormProps {
   id: LampiranCustom['id'];
 }
 
 const LampiranForm: React.FC<LampiranFormProps> = ({ id }) => {
-  const editorRef = useRef<TinyMCEEditor | null>(null);
   const { dispatch, state } = useSuratContext();
-  const [initialValue] = useState(
-    state.lampiran?.filter((lampiran) => lampiran.id === id)[0].body
-  ); // avoid Editor rerender on state change
-
-  const handleEditorChange = () => {
-    if (editorRef.current) {
-      dispatch.setLampiran({
-        id,
-        body: editorRef.current.getContent(),
-      });
-    }
-  };
-
-  const debounceHandleEditorChange = useDebouncedCallback(
-    handleEditorChange,
-    500
-  );
+  const { editorRef, initialValue, debounceHandleEditorChange } =
+    useEditorDebounce(state.lampiran, (content) => dispatch.setBody(content));
 
   return (
     <Editor
