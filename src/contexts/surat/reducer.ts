@@ -1,13 +1,6 @@
 import { initialSurat } from '@/dummy';
 import { Action } from '@/types/reducer';
-import {
-  LampiranCustom,
-  SuratReducerState,
-  SuratBiasa,
-  Surat,
-  LampiranSurat,
-  LampiranFile,
-} from '@/types/surat';
+import { LampiranCustom, LampiranFile, SuratReducerState } from '@/types/surat';
 
 export enum SuratAction {
   LevelSurat = 'SET_LEVEL_SURAT',

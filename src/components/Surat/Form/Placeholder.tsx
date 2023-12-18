@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import { FilePlusIcon, UploadIcon } from '@radix-ui/react-icons';
-import React, { ChangeEvent, ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode, useRef } from 'react';
 
 interface PlaceholderFormProps {
   children: ReactNode;
@@ -15,6 +15,8 @@ const PlaceholderForm: React.FC<PlaceholderFormProps> = ({
   uploadFile = () => {},
   addLampiran = () => {},
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   return (
     <div className="flex flex-col justify-between items-center gap-6 flex-1 h-full  overflow-hidden">
       <div className="h-[70vh] overflow-y-auto overflow-x-hidden">
@@ -31,9 +33,15 @@ const PlaceholderForm: React.FC<PlaceholderFormProps> = ({
             </Button>
             <Button className="flex-1" color="secondary">
               <input
+                ref={fileInputRef}
                 type="file"
                 accept="application/pdf"
                 multiple
+                onClick={(e) => {
+                  if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                  }
+                }}
                 onChange={uploadFile}
                 className="hidden"
                 id="file"

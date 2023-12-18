@@ -7,12 +7,7 @@ import React, {
 } from 'react';
 
 import { initialSurat } from '@/dummy';
-import {
-  LampiranCustom,
-  LampiranFile,
-  LampiranSurat,
-  SuratReducerState,
-} from '@/types/surat';
+import { LampiranCustom, LampiranFile, SuratReducerState } from '@/types/surat';
 import {
   FileAction,
   LampiranAction,
