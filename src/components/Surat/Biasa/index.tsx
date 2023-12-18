@@ -3,17 +3,14 @@ import format from 'date-fns/format';
 import { id } from 'date-fns/locale';
 import React from 'react';
 
-import DeleteButton from '@/components/DeleteButton';
 import { ContentSectionForm, SuratBiasa, SuratProps } from '@/types/surat';
-import { FileIcon } from '@radix-ui/react-icons';
 import { Html } from 'react-pdf-html';
 import ContentSectionOverlay from '../ContentSectionOverlay';
 import Kaki from '../Element/Kaki';
 import Kop from '../Element/Kop';
 import Lampiran from '../Element/Lampiran';
-import { CSSStyles, renderers, styles } from '../config';
-import formatFileSize from '@/utils/formatFileSize';
 import UploadedFile from '../Element/UploadedFile';
+import { CSSStyles, renderers, styles } from '../config';
 
 const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
   isPreview = false,
@@ -215,7 +212,7 @@ const SuratBiasa: React.FC<SuratProps<SuratBiasa>> = ({
       {!isPreview && data.files && data.files.length > 0 && (
         <div className="flex flex-col gap-4 mt-4">
           {data.files.map((file) => (
-            <UploadedFile key={file.id} id={file.id} file={file.file}  />
+            <UploadedFile key={file.id} id={file.id} file={file.file} />
           ))}
         </div>
       )}

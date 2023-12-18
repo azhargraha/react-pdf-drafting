@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useState, ReactNode } from 'react';
+import React, { ChangeEvent, ReactNode } from 'react';
 
-import PlaceholderForm from '../../Form/Placeholder';
 import { useSuratContext } from '@/contexts/surat/Provider';
 import { ContentSectionForm, LampiranSectionForm } from '@/types/surat';
 import KopForm from '../../Form/Kop';
+import PlaceholderForm from '../../Form/Placeholder';
 import BadanForm from './Badan';
 import KakiForm from './Kaki';
 import KepalaForm from './Kepala';
@@ -25,22 +25,7 @@ const SuratBiasaForm: React.FC<SuratBiasaFormProps> = ({
 
     if (files) {
       dispatch.setFile(Array.from(files));
-
-      if (files.length > 0) {
-        readContents(files[0]);
-      }
     }
-  };
-
-  const readContents = (file: File) => {
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-      const contents = e.target?.result as string;
-      console.log(contents);
-    };
-
-    reader.readAsDataURL(file);
   };
 
   return (

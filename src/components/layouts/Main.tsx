@@ -18,6 +18,7 @@ import SuratBiasa from '../Surat/Biasa';
 import SuratBiasaForm from '../Surat/Biasa/Form';
 import SuratPerintah from '../Surat/Perintah';
 import SuratPerintahForm from '../Surat/Perintah/Form';
+import useMergePDF from '@/hooks/useMergePDF';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -65,6 +66,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
     return <SuratBiasa {...props} />;
   };
+
+  const { isLoading, downloadDocument } = useMergePDF(document(true));
 
   const form = () => {
     const props = {
@@ -127,29 +130,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               </div>
             </header>
             <div className="flex gap-2">
-              <NoSSR>
-                <PDFDownloadLink
-                  document={document(true)}
-                  fileName="Surat Biasa"
-                >
-                  {({ blob, url, loading, error }) => {
-                    let label = '';
-
-                    if (error) {
-                      label = error.message;
-                    } else {
-                      label = loading ? 'Loading PDF' : 'Download';
-                    }
-
-                    return (
-                      <Button>
-                        <DownloadIcon height={18} width={18} />
-                        <span>{label}</span>
-                      </Button>
-                    );
-                  }}
-                </PDFDownloadLink>
-              </NoSSR>
+              <Button onClick={() => downloadDocument(documentType)}>
+                <DownloadIcon height={18} width={18} />
+                <span>{isLoading ? 'Loading PDF' : 'Download'}</span>
+              </Button>
             </div>
           </nav>
           <main className="flex overflow-hidden h-full">{children}</main>
