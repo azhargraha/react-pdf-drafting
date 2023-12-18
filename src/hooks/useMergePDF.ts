@@ -10,19 +10,24 @@ const useMergePDF = (doc: ReactElement) => {
 
   const generatePdfDocument = useCallback(async () => {
     const blob = await pdf(doc).toBlob();
-    const merger = new PDFMerger();
-    await merger.add(blob);
+    let pdfBlob = '';
 
     if (state.files && state.files.length > 0) {
+      // merge uploaded file to document
+      const merger = new PDFMerger();
+      await merger.add(blob);
+
       for (const { file } of state.files) {
         await merger.add(file);
       }
+
+      const mergedPdf = await merger.saveAsBlob();
+      pdfBlob = URL.createObjectURL(mergedPdf);
+    } else {
+      pdfBlob = URL.createObjectURL(blob);
     }
 
-    const mergedPdf = await merger.saveAsBlob();
-    const mergedPdfLampiran = URL.createObjectURL(mergedPdf);
-
-    setMergedUrl(mergedPdfLampiran);
+    setMergedUrl(pdfBlob);
     setIsLoading(false);
   }, [state]);
 
