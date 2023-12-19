@@ -19,6 +19,8 @@ import SuratBiasaForm from '../Surat/Biasa/Form';
 import SuratPerintah from '../Surat/Perintah';
 import SuratPerintahForm from '../Surat/Perintah/Form';
 import useMergePDF from '@/hooks/useMergePDF';
+import Select from '../Select';
+import { Option } from '@/types/input';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -41,6 +43,17 @@ const links = [
   {
     name: 'Canvas',
     href: '/canvas-based',
+  },
+];
+
+const documentTypeOption = [
+  {
+    value: 'surat-biasa',
+    label: 'Surat biasa',
+  },
+  {
+    value: 'surat-perintah',
+    label: 'Surat perintah',
   },
 ];
 
@@ -117,16 +130,38 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <header className="flex items-center gap-6">
               <h1 className="font-semibold text-xl">Konsep Naskah</h1>
               <div className="border-l border-l-gray-400 pl-4">
-                <select
-                  name="surat-option"
-                  id="surat-option"
-                  onChange={(e) => changeSurat(e.target.value)}
-                  value={documentType}
-                  className="bg-transparent outline-none"
-                >
-                  <option value="surat-biasa">Surat biasa</option>
-                  <option value="surat-perintah">Surat perintah</option>
-                </select>
+                <Select
+                  styles={{
+                    control: () => ({
+                      display: 'flex',
+                      alignItems: 'center',
+                    }),
+                    valueContainer: (baseStyles) => ({
+                      ...baseStyles,
+                      padding: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      paddingRight: 8,
+                    }),
+                    indicatorSeparator: () => ({
+                      display: 'none',
+                    }),
+                    dropdownIndicator: (baseStyles) => ({
+                      ...baseStyles,
+                      padding: 0,
+                    }),
+                    menu: (baseStyles) => ({
+                      ...baseStyles,
+                      width: 130,
+                    }),
+                  }}
+                  options={documentTypeOption}
+                  defaultValue={documentTypeOption[0]}
+                  isSearchable={false}
+                  onChange={(selected) =>
+                    changeSurat((selected as Option).value)
+                  }
+                />
               </div>
             </header>
             <div className="flex gap-2">

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactSelect, { Props as ReactSelectProps } from 'react-select';
 import Label, { LabelProps } from './Label';
 
-interface SelectProps extends ReactSelectProps, LabelProps {}
+interface SelectProps extends ReactSelectProps, Partial<LabelProps> {}
 
 const Select: React.FC<SelectProps> = ({ label, subLabel, ...props }) => {
   return (
