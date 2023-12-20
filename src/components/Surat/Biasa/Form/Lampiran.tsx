@@ -12,7 +12,9 @@ interface LampiranFormProps {
 const LampiranForm: React.FC<LampiranFormProps> = ({ id }) => {
   const { dispatch, state } = useSuratContext();
   const { editorRef, initialValue, debounceHandleEditorChange } =
-    useEditorDebounce(state.lampiran, (content) => dispatch.setBody(content));
+    useEditorDebounce(state.lampiran, (content) =>
+      dispatch.setLampiran({ id, body: content })
+    );
 
   return (
     <Editor
